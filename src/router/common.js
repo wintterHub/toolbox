@@ -2,7 +2,7 @@ const common = [
   {
     path: '/UrlBatchGenerat',
     name: 'UrlBatchGenerat',
-    component: () => import('@/views/UrlBatchGenerat.vue')
+    component: () => import('@/views/UrlBatchGenerat/UrlBatchGenerat.vue')
   }
 ]
 
