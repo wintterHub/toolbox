@@ -1,3 +1,3 @@
 <template>
-  <div>345</div>
+  <div>该功能暂未开放</div>
 </template>
