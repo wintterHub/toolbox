@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="参数编辑"
+    :title="'参数' + typeName"
     :visible.sync="_visible"
     width="45%"
     @open="onDialogOpen"
@@ -10,7 +10,7 @@
     <el-form ref="form" :model="value_" label-width="100px">
       <el-form-item label="参数名称">
         <el-input
-          :disabled="isEdit"
+          :disabled="true"
           v-model="value_.name"
           placeholder="请输入参数名称"
         ></el-input>
@@ -40,10 +40,11 @@
     </el-form>
 
     <span slot="footer">
-      <el-button @click="_visible = false">取 消</el-button>
+      <el-button @click="_visible = false" round>取 消</el-button>
       <el-button
         type="primary"
         @click="$emit('confirm', JSON.parse(JSON.stringify(value_)))"
+        round
         >确 定</el-button
       >
     </span>
@@ -67,15 +68,15 @@ export default {
   data() {
     return {
       value_: {
-        name: "参数1",
+        name: "",
         type: "ParamConfigNumber",
         paramConfig: {
           start: 0,
           isZeroPadding: false,
           action: "up",
           actionRange: 1,
-          count: 1,
-          end: 1
+          endCondition: "endValue",
+          endConditionValue: "1"
         }
       }
     };
@@ -90,6 +91,16 @@ export default {
     // 是否为编辑（该参数只读）
     isEdit() {
       return "edit" === this.type ? true : false;
+    },
+
+    typeName() {
+      if (this.isAdd) {
+        return "添加";
+      } else if (this.isEdit) {
+        return "编辑";
+      } else {
+        return "";
+      }
     }
   },
 
@@ -103,27 +114,13 @@ export default {
   methods: {
     onDialogOpen() {
       if (this.isAdd) {
+        this.value_ = Object.assign({}, this.value_, this.value);
       } else if (this.isEdit) {
         this.value_ = JSON.parse(JSON.stringify(this.value));
       }
     },
 
-    onDialogClosed() {
-      //   this.value_ = {
-      //     name: '参数1',
-      //     type: 'ParamConfigNumber',
-      //     paramConfig: {
-      //       start: 0,
-      //       isZeroPadding: false,
-      //       action: 'up',
-      //       actionRange: 1,
-      //       count: 1,
-      //       end: 1
-      //     }
-      //   }
-      // debugger
-      // this.$refs.form.resetFields()
-    },
+    onDialogClosed() {},
 
     onParamConfigChange(val) {
       if (this.isAdd) {

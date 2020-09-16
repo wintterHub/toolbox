@@ -6,7 +6,11 @@
         <el-menu
           router
           :default-openeds="['1']"
+          default-active="/urlBatchGenerat"
           style="height: calc(100vh - 60px);"
+          background-color="#3B3E43"
+          text-color="#A9A9AB"
+          active-text-color="#ffffff"
         >
           <el-menu-item index="/urlBatchGenerat">
             <i class="el-icon-menu"></i>
@@ -14,7 +18,10 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main class="main">
+      <el-main
+        class="main"
+        style="overflow-y: auto; height: calc(100vh - 60px);"
+      >
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -39,8 +46,7 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
-  background-size: 100% auto;
-  background-image: url("../assets/wallpaper/PIC_20141231_154137_1C8.jpg");
+  background: linear-gradient(90deg, #48a4f7, #bc42ab);
 }
 
 .main {

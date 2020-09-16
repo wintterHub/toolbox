@@ -8,68 +8,115 @@
           class="el-input-url"
           @click.native="onUrlClick"
         >
-          <el-button slot="append" @click="onAddClick">添加参数</el-button>
         </el-input>
       </el-form-item>
-      <el-form-item label="参数列表" style="width: 50%;">
-        <el-table
-          stripe
-          :border="true"
-          :data="formData.paramDatas"
-          size="mini"
-          :header-cell-style="{
-            background: '#FAFAFA',
-            color: '#50646F',
-            'line-height': '21px',
-            'border-color': '#dcdfe6'
-          }"
-        >
-          <el-table-column align="center" prop="name" label="参数名">
-          </el-table-column>
-          <el-table-column align="center" prop="type" label="参数类型">
-            <template slot-scope="scope">
-              <span v-if="scope.row.type === 'ParamConfigNumber'">数字</span>
-              <span v-if="scope.row.type === 'ParamConfigLetter'">字母</span>
-              <span v-if="scope.row.type === 'ParamConfigTime'">时间</span>
-              <span v-if="scope.row.type === 'ParamConfigCustomize'"
-                >自定义</span
-              >
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="address" label="操作">
-            <template slot-scope="scope">
-              <el-button
-                type="text"
-                @click="onEditClick(scope.row, scope.$index)"
-                style="padding: 0px; "
-                >编辑</el-button
-              >
-              <el-button
-                type="text"
-                @click="onDeleteClick"
-                style="padding: 0px; "
-                >删除</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-button
-          type="primary"
-          @click="onGeneratClick"
-          style="margin-top: 22px;"
-          >生成地址</el-button
-        >
-        <span style="margin-left: 22px; color:#606266;">{{ generatText }}</span>
-      </el-form-item>
-      <el-form-item label="生成结果">
-        <el-input
-          readonly
-          type="textarea"
-          rows="20"
-          v-model="formData.generatContent"
-        >
-        </el-input>
-      </el-form-item>
+      <el-button
+        @click="onAddClick"
+        type="primary"
+        round
+        style="margin-left: 100px; margin-bottom: 22px;"
+      >
+        添加参数
+      </el-button>
+      <el-button
+        type="primary"
+        @click="onGeneratClick"
+        round
+        :disabled="isRealTimeGenerat"
+      >
+        生成地址
+      </el-button>
+      <el-checkbox
+        v-model="isRealTimeGenerat"
+        style="margin-left: 22px;"
+        @change="onRealTimeGeneratChange"
+      >
+        实时生成
+      </el-checkbox>
+      <el-row>
+        <el-col :span="9">
+          <el-form-item label="参数列表">
+            <el-table
+              stripe
+              :border="true"
+              :data="formData.paramDatas"
+              size="mini"
+              height="469"
+              :header-cell-style="{
+                background: '#FAFAFA',
+                color: '#50646F',
+                'line-height': '21px',
+                'border-color': '#dcdfe6'
+              }"
+            >
+              <el-table-column align="center" prop="name" label="参数名">
+              </el-table-column>
+              <el-table-column align="center" prop="type" label="参数类型">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.type === 'ParamConfigNumber'">
+                    数字
+                  </span>
+                  <span v-if="scope.row.type === 'ParamConfigLetter'">
+                    字母
+                  </span>
+                  <span v-if="scope.row.type === 'ParamConfigTime'">
+                    时间
+                  </span>
+                  <span v-if="scope.row.type === 'ParamConfigCustomize'">
+                    自定义
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="address" label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    @click="onEditClick(scope.row, scope.$index)"
+                    style="margin-right: 10px;padding: 0;"
+                  >
+                    编辑
+                  </el-button>
+
+                  <el-popover
+                    placement="right"
+                    v-model="delPopoverVisible[scope.$index]"
+                  >
+                    <div style="text-align: center;">
+                      <el-button
+                        type="danger"
+                        round
+                        size="mini"
+                        @click="onDeleteClick(scope.row, scope.$index)"
+                      >
+                        点击确认删除
+                      </el-button>
+                    </div>
+                    <el-button slot="reference" type="text" style="padding: 0;">
+                      删除
+                    </el-button>
+                  </el-popover>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
+        </el-col>
+        <el-col :span="15">
+          <div class="generat-content-title">
+            <el-button type="info" style="padding: 3px; float: left;"
+              >复制</el-button
+            >
+            <span>生成结果</span>
+          </div>
+          <el-input
+            readonly
+            type="textarea"
+            rows="20"
+            v-model="formData.generatContent"
+            resize="none"
+          >
+          </el-input
+        ></el-col>
+      </el-row>
     </el-form>
     <param-form-dialog
       :visible="paramFormDialogVisible"
@@ -88,6 +135,7 @@ export default {
   data() {
     return {
       formData: {
+        url: "",
         paramDatas: [],
         generatContent: ""
       },
@@ -97,7 +145,10 @@ export default {
       currentParamData: {},
       currentParamIndex: 0,
       cursorStartPosition: 0,
-      cursorEndPosition: 0
+      cursorEndPosition: 0,
+
+      delPopoverVisible: [],
+      isRealTimeGenerat: true
     };
   },
 
@@ -131,6 +182,9 @@ export default {
     onAddClick() {
       this.paramFormDialogType = "add";
       this.paramFormDialogVisible = true;
+      // 递增生成参数名
+      let newName = `参数${this.formData.paramDatas.length + 1}`;
+      this.currentParamData = { name: newName };
     },
 
     onEditClick(row, index) {
@@ -140,7 +194,12 @@ export default {
       this.currentParamIndex = index;
     },
 
-    onDeleteClick() {},
+    onDeleteClick(row, index) {
+      this.formData.paramDatas.splice(index, 1);
+      this.formData.url = this.formData.url.replaceAll(`[${row.name}]`, "");
+      this.delPopoverVisible[index] = false; // 手动关闭Popover
+      this.isRealTimeGenerat && this.onGeneratClick();
+    },
 
     onGeneratClick() {
       let result = [];
@@ -154,7 +213,7 @@ export default {
               this.formData.paramDatas[i]
             );
           } else {
-            // 不是第一个参数，循环遍历result数组中的值
+            // 不是第一个参数，遍历result数组
             result = this._replaceParamConfigNumber(
               result,
               this.formData.paramDatas[i]
@@ -163,28 +222,42 @@ export default {
         }
       }
       this.formData.generatContent = result.join("\n");
+      !this.isRealTimeGenerat && this.$message.success("执行完毕");
     },
 
     // 替换Url中数字类型的变量
     _replaceParamConfigNumber(urlArr, paramData) {
+      // 获取基本参数
       let name = `[${paramData.name}]`;
       let start = paramData.paramConfig.start;
-      let end = paramData.paramConfig.end;
+      let endCondition = paramData.paramConfig.endCondition;
+      let endConditionValue = paramData.paramConfig.endConditionValue;
       let action = paramData.paramConfig.action;
       let actionRange = paramData.paramConfig.actionRange;
+
+      // 根据结束条件，计算结束值
+      let end = (() => {
+        if (endCondition === "count") {
+          return action === "up"
+            ? start + endConditionValue * actionRange
+            : start - endConditionValue * actionRange;
+        } else {
+          return action === "up"
+            ? endConditionValue + 1
+            : endConditionValue - 1;
+        }
+      })();
+
+      // 遍历urlArr，替换参数占位符
       let result = [];
-      if (action === "up") {
-        for (let i = start; i < end; i += actionRange) {
-          urlArr.forEach(url => {
-            result.push(url.replace(name, i));
-          });
-        }
-      } else if (action === "down") {
-        for (let i = start; i < end; i -= actionRange) {
-          urlArr.forEach(url => {
-            result.push(this.formData.url.replace(name, i));
-          });
-        }
+      for (
+        let i = start;
+        action === "up" ? i < end : i > end;
+        i += action === "up" ? actionRange : -actionRange
+      ) {
+        urlArr.forEach(url => {
+          result.push(url.replace(name, i));
+        });
       }
       return result;
     },
@@ -205,6 +278,14 @@ export default {
         this.paramFormDialogVisible = false;
         this.formData.paramDatas.splice(this.currentParamIndex, 1, val);
       }
+      this.isRealTimeGenerat && this.onGeneratClick();
+    },
+
+    onRealTimeGeneratChange(val) {
+      if (val) {
+        // 开启实时生成，立即执行一次生成逻辑
+        this.onGeneratClick();
+      }
     }
   },
 
@@ -220,5 +301,21 @@ export default {
 .el-table {
   border-color: #dcdfe6;
   border-radius: 4px;
+}
+
+.generat-content-title {
+  border: 1px solid #dde0e7;
+  background-color: #fafafa;
+  border-radius: 4px 4px 0 0;
+  color: #50646f;
+  line-height: 23px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  padding: 6px;
+}
+
+.el-row {
+  width: 95%;
 }
 </style>
