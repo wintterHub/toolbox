@@ -71,7 +71,7 @@ export default {
         name: "",
         type: "ParamConfigNumber",
         paramConfig: {
-          start: 0,
+          start: 1,
           isZeroPadding: false,
           action: "up",
           actionRange: 1,

@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form ref="form" :model="formData" label-width="100px">
+      <!-- 网络地址 -->
       <el-form-item label="网络地址">
         <el-input
           v-model="formData.url"
@@ -10,6 +11,7 @@
         >
         </el-input>
       </el-form-item>
+
       <el-button
         @click="onAddClick"
         type="primary"
@@ -33,8 +35,10 @@
       >
         实时生成
       </el-checkbox>
+
       <el-row>
         <el-col :span="9">
+          <!-- 参数列表 -->
           <el-form-item label="参数列表">
             <el-table
               stripe
@@ -100,6 +104,8 @@
             </el-table>
           </el-form-item>
         </el-col>
+
+        <!-- 生成结果 -->
         <el-col :span="15">
           <div class="generat-content-title">
             <el-button type="info" style="padding: 3px; float: left;"
@@ -117,6 +123,12 @@
           </el-input
         ></el-col>
       </el-row>
+
+      <el-form-item label="结果处理">
+        <el-button type="primary" @click="onBatchDownloadClick" round>
+          批量下载
+        </el-button>
+      </el-form-item>
     </el-form>
     <param-form-dialog
       :visible="paramFormDialogVisible"
@@ -131,13 +143,15 @@
 
 <script>
 import ParamFormDialog from "./ParamFormDialog.vue";
+import util from "../../commonJS/util.js";
 export default {
   data() {
     return {
       formData: {
         url: "",
         paramDatas: [],
-        generatContent: ""
+        generatContent: "",
+        generatContentArr: []
       },
       generatText: "",
       paramFormDialogVisible: false,
@@ -221,6 +235,7 @@ export default {
           }
         }
       }
+      this.formData.generatList = result;
       this.formData.generatContent = result.join("\n");
       !this.isRealTimeGenerat && this.$message.success("执行完毕");
     },
@@ -256,10 +271,36 @@ export default {
         i += action === "up" ? actionRange : -actionRange
       ) {
         urlArr.forEach(url => {
-          result.push(url.replace(name, i));
+          if (paramData.paramConfig.isZeroPadding) {
+            // 补零
+            let len = Math.max(start);
+            let leftPadI = _leftPad(i, "0", len);
+            result.push(url.replace(name, leftPadI));
+          } else {
+            // 不补零
+            result.push(url.replace(name, i));
+          }
         });
       }
       return result;
+    },
+
+    // 在一字符串左边填充若干指定字符，使其长度达到指定长度
+    _leftPad(srcString, c, length) {
+      if (srcString == null) {
+        srcString = "";
+      }
+      let tLen = srcString.length;
+      if (tLen >= length) {
+        return srcString;
+      }
+      let iMax = length - tLen;
+      let str = "";
+      for (let i = 0; i < iMax; i++) {
+        str += c;
+      }
+      str += srcString;
+      return str;
     },
 
     onDialogConfirm(val) {
@@ -286,6 +327,25 @@ export default {
         // 开启实时生成，立即执行一次生成逻辑
         this.onGeneratClick();
       }
+    },
+
+    onBatchDownloadClick() {
+      let tasks = [];
+      this.formData.generatList = [];
+      this.formData.generatList.forEach((item, index) => {
+        tasks.push({
+          url: item
+        });
+      });
+
+      util.loadJs("../../static/thunder-link.js", function() {
+        // 通过参数创建批量任务
+        thunderLink.newTask({
+          downloadDir: "", // 指定当前任务的下载目录
+          taskGroupName: "分组1", // 指定任务组名称
+          tasks: tasks
+        });
+      });
     }
   },
 
