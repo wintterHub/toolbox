@@ -136,7 +136,7 @@
           round
           :disabled="!formData.generatContent"
         >
-          批量下载
+          迅雷批量下载
         </el-button>
       </el-form-item>
     </el-form>
