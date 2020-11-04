@@ -285,6 +285,19 @@ export default {
         }
       })();
 
+      // 获取最大结果值，用于判断最终是否需要补零
+      let maxNum = (() => {
+        let arrNum = [];
+        for (
+          let i = start;
+          action === "up" ? i < end : i > end;
+          i += action === "up" ? actionRange : -actionRange
+        ) {
+          arrNum.push(i);
+        }
+        return Math.max(...arrNum);
+      })();
+
       // 遍历urlArr，替换参数占位符
       let result = [];
       for (
@@ -295,8 +308,8 @@ export default {
         urlArr.forEach(url => {
           if (paramData.paramConfig.isZeroPadding) {
             // 补零
-            let len = Math.max(start);
-            let leftPadI = _leftPad(i, "0", len);
+            let len = maxNum.toString().length;
+            let leftPadI = this._leftPad(i, "0", len);
             result.push(url.replace(name, leftPadI));
           } else {
             // 不补零
@@ -312,7 +325,7 @@ export default {
       if (srcString == null) {
         srcString = "";
       }
-      let tLen = srcString.length;
+      let tLen = srcString.toString().length;
       if (tLen >= length) {
         return srcString;
       }
