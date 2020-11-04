@@ -8,6 +8,7 @@
           placeholder="https://zhaochangjin.com/[参数1]?param=[参数2]"
           class="el-input-url"
           @click.native="onUrlClick"
+          @change="onGeneratClick"
         >
         </el-input>
       </el-form-item>
@@ -108,7 +109,11 @@
         <!-- 生成结果 -->
         <el-col :span="15">
           <div class="generat-content-title">
-            <el-button type="info" style="padding: 3px; float: left;"
+            <el-button
+              class="generat-content-copy-btn"
+              type="info"
+              style="padding: 3px; float: left;"
+              :data-clipboard-text="formData.generatContent"
               >复制</el-button
             >
             <span>生成结果</span>
@@ -125,7 +130,12 @@
       </el-row>
 
       <el-form-item label="结果处理">
-        <el-button type="primary" @click="onBatchDownloadClick" round>
+        <el-button
+          type="primary"
+          @click="onBatchDownloadClick"
+          round
+          :disabled="!formData.generatContent"
+        >
           批量下载
         </el-button>
       </el-form-item>
@@ -144,6 +154,18 @@
 <script>
 import ParamFormDialog from "./ParamFormDialog.vue";
 import util from "../../commonJS/util.js";
+import Clipboard from "clipboard";
+import { Message } from "element-ui";
+
+const clipboard = new Clipboard(".generat-content-copy-btn");
+clipboard.on("success", function(e) {
+  Message.success("已复制到剪切板");
+  e.clearSelection();
+});
+clipboard.on("error", function(e) {
+  Message.error("复制失败");
+});
+
 export default {
   data() {
     return {
@@ -331,7 +353,6 @@ export default {
 
     onBatchDownloadClick() {
       let tasks = [];
-      this.formData.generatList = [];
       this.formData.generatList.forEach((item, index) => {
         tasks.push({
           url: item
