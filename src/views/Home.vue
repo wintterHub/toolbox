@@ -21,15 +21,9 @@
         </el-menu>
 
         <div class="github">
-          <span>点击支持👉 </span>
-          <iframe
-            src="https://ghbtns.com/github-btn.html?user=wintterHub&repo=toolbox&type=star&count=true"
-            frameborder="0"
-            scrolling="0"
-            width="100"
-            height="20"
-            title="GitHub"
-          ></iframe>
+          <a href="https://github.com/wintterHub/toolbox" target="_black"
+            >👉 Give me star</a
+          >
         </div>
       </el-aside>
       <el-main
@@ -82,17 +76,14 @@ export default {
   height: 56px;
   width: 249px;
   background-color: #3b3e43;
-  text-align: center;
 }
 
-.github span {
+.github a {
   color: #a9a9ab;
-  font-size: 14px;
-}
-
-.github iframe {
-  margin-top: 15px;
-  vertical-align: bottom;
+  font-size: 16px;
+  line-height: 56px;
+  margin-left: 53px;
+  text-decoration: none;
 }
 
 .main {
