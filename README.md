@@ -4,4 +4,10 @@
 
 包含如下工具：
 
-1、[链接批量生成](https://wintterhub.github.io/toolbox/dist/#/UrlBatchGenerat)
+>  [链接批量生成](https://wintterhub.github.io/toolbox/dist/#/UrlBatchGenerat)
+
+其他工具：
+
+> [种子编辑器](https://sdjdd.github.io/whitewash-torrent/demo/)
+
+> [图片压缩](https://fengyuanchen.github.io/compressorjs/)
