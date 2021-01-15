@@ -372,14 +372,19 @@ export default {
         });
       });
 
-      util.loadJs("../../static/thunder-link.js", function() {
-        // 通过参数创建批量任务
-        thunderLink.newTask({
-          downloadDir: "", // 指定当前任务的下载目录
-          taskGroupName: "分组1", // 指定任务组名称
-          tasks: tasks
-        });
-      });
+      util.loadJs(
+        window.location.origin +
+          window.location.pathname +
+          "/static/thunder-link.js",
+        function() {
+          // 通过参数创建批量任务
+          thunderLink.newTask({
+            downloadDir: "", // 指定当前任务的下载目录
+            taskGroupName: "分组1", // 指定任务组名称
+            tasks: tasks
+          });
+        }
+      );
     }
   },
 
