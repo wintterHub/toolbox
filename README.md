@@ -1,21 +1,2 @@
-# toolbox
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run electron:serve
-```
-
-### Compiles and minifies for production
-```
-npm run electron:build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+# ToolBox 工具箱
+👉 [点击这里开始使用 Click here to start](https://wintterhub.github.io/toolbox/dist)

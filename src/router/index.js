@@ -9,7 +9,8 @@ let assignRoutes = [
     path: '/',
     name: 'home',
     component: () => import('@/views/Home.vue'),
-    children: [...common]
+    children: [...common],
+    redirect: { name: 'UrlBatchGenerat' }
   }
 ]
 
