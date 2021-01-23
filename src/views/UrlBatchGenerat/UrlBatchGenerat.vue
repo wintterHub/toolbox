@@ -25,16 +25,16 @@
         type="primary"
         @click="onGeneratClick"
         round
-        :disabled="isRealTimeGenerat"
+        :disabled="isAutoGenerat"
       >
         生成地址
       </el-button>
       <el-checkbox
-        v-model="isRealTimeGenerat"
+        v-model="isAutoGenerat"
         style="margin-left: 22px;"
         @change="onRealTimeGeneratChange"
       >
-        实时生成
+        自动生成
       </el-checkbox>
 
       <el-row>
@@ -58,16 +58,16 @@
               </el-table-column>
               <el-table-column align="center" prop="type" label="参数类型">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.type === 'ParamConfigNumber'">
+                  <span v-if="scope.row.type === 'paramConfigNumber'">
                     数字
                   </span>
-                  <span v-if="scope.row.type === 'ParamConfigLetter'">
+                  <span v-if="scope.row.type === 'paramConfigLetter'">
                     字母
                   </span>
-                  <span v-if="scope.row.type === 'ParamConfigTime'">
+                  <span v-if="scope.row.type === 'paramConfigTime'">
                     时间
                   </span>
-                  <span v-if="scope.row.type === 'ParamConfigCustomize'">
+                  <span v-if="scope.row.type === 'paramConfigCustomize'">
                     自定义
                   </span>
                 </template>
@@ -156,6 +156,7 @@ import ParamFormDialog from "./ParamFormDialog.vue";
 import util from "../../commonJS/util.js";
 import Clipboard from "clipboard";
 import { Message } from "element-ui";
+import store from "../../commonJS/urlBatchGenerat.js";
 
 const clipboard = new Clipboard(".generat-content-copy-btn");
 clipboard.on("success", function(e) {
@@ -184,7 +185,7 @@ export default {
       cursorEndPosition: 0,
 
       delPopoverVisible: [],
-      isRealTimeGenerat: true
+      isAutoGenerat: true
     };
   },
 
@@ -234,108 +235,26 @@ export default {
       this.formData.paramDatas.splice(index, 1);
       this.formData.url = this.formData.url.replaceAll(`[${row.name}]`, "");
       this.delPopoverVisible[index] = false; // 手动关闭Popover
-      this.isRealTimeGenerat && this.onGeneratClick();
+      this.isAutoGenerat && this.onGeneratClick();
     },
 
     onGeneratClick() {
-      let result = [];
+      // 初始化result为用户输入的url
+      let result = [this.formData.url];
+
       for (let i = 0; i < this.formData.paramDatas.length; i++) {
-        // 数字类型参数替换
-        if (this.formData.paramDatas[i].type === "ParamConfigNumber") {
-          if (i === 0) {
-            // 如果是第一个参数
-            result = this._replaceParamConfigNumber(
-              [this.formData.url],
-              this.formData.paramDatas[i]
-            );
-          } else {
-            // 不是第一个参数，遍历result数组
-            result = this._replaceParamConfigNumber(
-              result,
-              this.formData.paramDatas[i]
-            );
-          }
-        }
+        /* 类型名称转大写驼峰后拼接成方法名 */
+        let upperCamelCaseType = util.toUpperCamelCase(
+          this.formData.paramDatas[i].type
+        );
+        let funcName = `replace${upperCamelCaseType}`;
+
+        result = store[funcName](result, this.formData.paramDatas[i]);
       }
+
       this.formData.generatList = result;
       this.formData.generatContent = result.join("\n");
-      !this.isRealTimeGenerat && this.$message.success("执行完毕");
-    },
-
-    // 替换Url中数字类型的变量
-    _replaceParamConfigNumber(urlArr, paramData) {
-      // 获取基本参数
-      let name = `[${paramData.name}]`;
-      let start = paramData.paramConfig.start;
-      let endCondition = paramData.paramConfig.endCondition;
-      let endConditionValue = paramData.paramConfig.endConditionValue;
-      let action = paramData.paramConfig.action;
-      let actionRange = paramData.paramConfig.actionRange;
-
-      // 根据结束条件，计算结束值
-      let end = (() => {
-        if (endCondition === "count") {
-          return action === "up"
-            ? start + endConditionValue * actionRange
-            : start - endConditionValue * actionRange;
-        } else {
-          return action === "up"
-            ? endConditionValue + 1
-            : endConditionValue - 1;
-        }
-      })();
-
-      // 获取最大结果值，用于判断最终是否需要补零
-      let maxNum = (() => {
-        let arrNum = [];
-        for (
-          let i = start;
-          action === "up" ? i < end : i > end;
-          i += action === "up" ? actionRange : -actionRange
-        ) {
-          arrNum.push(i);
-        }
-        return Math.max(...arrNum);
-      })();
-
-      // 遍历urlArr，替换参数占位符
-      let result = [];
-      for (
-        let i = start;
-        action === "up" ? i < end : i > end;
-        i += action === "up" ? actionRange : -actionRange
-      ) {
-        urlArr.forEach(url => {
-          if (paramData.paramConfig.isZeroPadding) {
-            // 补零
-            let len = maxNum.toString().length;
-            let leftPadI = this._leftPad(i, "0", len);
-            result.push(url.replace(name, leftPadI));
-          } else {
-            // 不补零
-            result.push(url.replace(name, i));
-          }
-        });
-      }
-      return result;
-    },
-
-    // 在一字符串左边填充若干指定字符，使其长度达到指定长度
-    _leftPad(srcString, c, length) {
-      if (srcString == null) {
-        srcString = "";
-      }
-      let tLen = srcString.toString().length;
-      if (tLen >= length) {
-        return srcString;
-      }
-      let iMax = length - tLen;
-      let str = "";
-      for (let i = 0; i < iMax; i++) {
-        str += c;
-      }
-      str += srcString;
-      return str;
+      !this.isAutoGenerat && this.$message.success("执行完毕");
     },
 
     onDialogConfirm(val) {
@@ -354,12 +273,12 @@ export default {
         this.paramFormDialogVisible = false;
         this.formData.paramDatas.splice(this.currentParamIndex, 1, val);
       }
-      this.isRealTimeGenerat && this.onGeneratClick();
+      this.isAutoGenerat && this.onGeneratClick();
     },
 
     onRealTimeGeneratChange(val) {
       if (val) {
-        // 开启实时生成，立即执行一次生成逻辑
+        // 开启自动生成，立即执行一次生成逻辑
         this.onGeneratClick();
       }
     },
@@ -386,9 +305,7 @@ export default {
         }
       );
     }
-  },
-
-  mounted() {}
+  }
 };
 </script>
 

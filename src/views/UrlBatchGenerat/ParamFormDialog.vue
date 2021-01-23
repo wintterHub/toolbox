@@ -17,14 +17,12 @@
       </el-form-item>
       <el-form-item label="参数类型">
         <el-radio-group v-model="value_.type">
-          <el-radio-button label="ParamConfigNumber">数字</el-radio-button>
-          <el-radio-button disabled label="ParamConfigLetter"
-            >字母</el-radio-button
-          >
-          <el-radio-button disabled label="ParamConfigTime"
+          <el-radio-button label="paramConfigNumber">数字</el-radio-button>
+          <el-radio-button label="paramConfigLetter">字母</el-radio-button>
+          <el-radio-button disabled label="paramConfigTime"
             >时间</el-radio-button
           >
-          <el-radio-button disabled label="ParamConfigCustomize"
+          <el-radio-button disabled label="paramConfigCustomize"
             >自定义</el-radio-button
           >
         </el-radio-group>
@@ -32,7 +30,7 @@
       <el-form-item label="参数配置">
         <components
           :is="value_.type"
-          :value="value_.paramConfig"
+          :value="_getParamConfig()"
           @change="onParamConfigChange"
         >
         </components>
@@ -52,10 +50,10 @@
 </template>
 
 <script>
-import ParamConfigNumber from "./ParamConfigNumber.vue";
-import ParamConfigLetter from "./ParamConfigLetter.vue";
-import ParamConfigTime from "./ParamConfigTime.vue";
-import ParamConfigCustomize from "./ParamConfigCustomize.vue";
+import paramConfigNumber from "./ParamConfigNumber.vue";
+import paramConfigLetter from "./ParamConfigLetter.vue";
+import paramConfigTime from "./ParamConfigTime.vue";
+import paramConfigCustomize from "./ParamConfigCustomize.vue";
 import baseDialogModule from "@/mixins/baseDialogModule.js";
 export default {
   mixins: [baseDialogModule],
@@ -69,15 +67,29 @@ export default {
     return {
       value_: {
         name: "",
-        type: "ParamConfigNumber",
-        paramConfig: {
+        type: "paramConfigNumber",
+        paramConfigNumber: {
+          // 数字类型参数
           start: 1,
           isZeroPadding: false,
           action: "up",
           actionRange: 1,
           endCondition: "endValue",
           endConditionValue: "1"
-        }
+        },
+        // 字母类型参数
+        paramConfigLetter: {
+          lowercase: true,
+          lowercaseStart: "a",
+          lowercaseEnd: "z",
+          uppercase: true,
+          uppercaseStart: "A",
+          uppercaseEnd: "Z"
+        },
+        // 时间类型参数
+        paramConfigTime: {},
+        // 自定义类型参数
+        paramConfigCustomize: {}
       }
     };
   },
@@ -105,10 +117,10 @@ export default {
   },
 
   components: {
-    ParamConfigNumber,
-    ParamConfigLetter,
-    ParamConfigTime,
-    ParamConfigCustomize
+    paramConfigNumber,
+    paramConfigLetter,
+    paramConfigTime,
+    paramConfigCustomize
   },
 
   methods: {
@@ -125,8 +137,12 @@ export default {
     onParamConfigChange(val) {
       if (this.isAdd) {
       } else if (this.isEdit) {
-        this.value_.paramConfig = val;
+        this.value_[this.value_.type] = val;
       }
+    },
+
+    _getParamConfig() {
+      return this.value_[this.value_.type];
     }
   }
 };
