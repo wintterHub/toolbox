@@ -19,7 +19,7 @@
         round
         style="margin-left: 100px; margin-bottom: 22px;"
       >
-        添加参数
+        <i class="fas fa-plus"></i>&nbsp;添加参数
       </el-button>
       <el-button
         type="primary"
@@ -27,7 +27,7 @@
         round
         :disabled="isAutoGenerat"
       >
-        生成地址
+        <i class="fas fa-check"></i>&nbsp;生成地址
       </el-button>
       <el-checkbox
         v-model="isAutoGenerat"
@@ -79,7 +79,7 @@
                     @click="onEditClick(scope.row, scope.$index)"
                     style="margin-right: 10px;padding: 0;"
                   >
-                    编辑
+                  <i class="far fa-edit"></i>&nbsp;编辑
                   </el-button>
 
                   <el-popover
@@ -93,11 +93,11 @@
                         size="mini"
                         @click="onDeleteClick(scope.row, scope.$index)"
                       >
-                        点击确认删除
+                      <i class="fas fa-check-double"></i>&nbsp;确认删除
                       </el-button>
                     </div>
                     <el-button slot="reference" type="text" style="padding: 0;">
-                      删除
+                      <i class="far fa-trash-alt"></i>&nbsp;删除
                     </el-button>
                   </el-popover>
                 </template>
@@ -114,7 +114,7 @@
               type="info"
               style="padding: 3px; float: left;"
               :data-clipboard-text="formData.generatContent"
-              >复制</el-button
+              ><i class="far fa-copy"></i>&nbsp;复制</el-button
             >
             <span>生成结果</span>
           </div>
@@ -136,7 +136,7 @@
           round
           :disabled="!formData.generatContent"
         >
-          迅雷批量下载
+          <i class="fas fa-download"></i>&nbsp;迅雷批量下载
         </el-button>
       </el-form-item>
     </el-form>

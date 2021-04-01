@@ -15,14 +15,18 @@
           active-text-color="#ffffff"
         >
           <el-menu-item index="/urlBatchGenerat">
-            <i class="el-icon-menu"></i>
+            <i class="fas fa-link"></i>&nbsp;
             <span slot="title">链接批量生成</span>
+          </el-menu-item>
+          <el-menu-item index="/imageCompress">
+            <i class="far fa-images"></i>&nbsp;
+            <span slot="title">图片压缩</span>
           </el-menu-item>
         </el-menu>
 
         <div class="github">
           <a href="https://github.com/wintterHub/toolbox" target="_black"
-            >👉 Give me star</a
+            >👉&nbsp;Give me star</a
           >
         </div>
       </el-aside>
