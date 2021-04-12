@@ -1,21 +1,19 @@
 import util from './util.js'
 
-const urlBatchGenerat = {}
-
 /**
  * 替换Url中数字类型的变量
  * @param {Array} urlArr url数组
  * @param {Object} paramData 参数对象
  */
-urlBatchGenerat.replaceParamConfigNumber = function (urlArr, paramData) {
+const replaceParamConfigNumber = function (urlArr, paramData) {
   // 获取基本参数
-  let name = `[${paramData.name}]`
-  let start = paramData.paramConfigNumber.start
-  let endCondition = paramData.paramConfigNumber.endCondition
-  let endConditionValue = paramData.paramConfigNumber.endConditionValue
-  let action = paramData.paramConfigNumber.action
-  let actionRange = paramData.paramConfigNumber.actionRange
-  let isZeroPadding = paramData.paramConfigNumber.isZeroPadding
+  let name = `[${paramData.name}]` // 参数名
+  let start = paramData.paramConfigNumber.start // 开始值
+  let endCondition = paramData.paramConfigNumber.endCondition // 结束条件 endValue-结束值、count-项数
+  let endConditionValue = paramData.paramConfigNumber.endConditionValue // 结束条件的值
+  let action = paramData.paramConfigNumber.action // 每次动作 up-递增、down-递减
+  let actionRange = paramData.paramConfigNumber.actionRange //  每次动作的值
+  let isZeroPadding = paramData.paramConfigNumber.isZeroPadding // 补零
 
   // 根据结束条件，计算结束值
   let end = (() => {
@@ -70,8 +68,17 @@ urlBatchGenerat.replaceParamConfigNumber = function (urlArr, paramData) {
  * @param {Array} urlArr url数组
  * @param {Object} paramData 参数对象
  */
-urlBatchGenerat.replaceParamConfigLetter = function (urlArr, paramData) {
+const replaceParamConfigLetter = function (urlArr, paramData) {
+  // 获取基本参数
+  let name = `[${paramData.name}]` // 参数名
+  let lowercase = paramData.paramConfigNumber.lowercase // 开启小写
+  let lowercaseStart = paramData.paramConfigNumber.lowercaseStart // 小写起始字母
+  let lowercaseEnd = paramData.paramConfigNumber.lowercaseEnd // 小写结束字母
+  let uppercase = paramData.paramConfigNumber.uppercase // 开启大写
+  let uppercaseStart = paramData.paramConfigNumber.uppercaseStart // 大写起始字母
+  let uppercaseStart = paramData.paramConfigNumber.uppercaseStart // 大写结束字母
 
+  // TODO 逻辑待完成
 }
 
 /**
@@ -79,7 +86,7 @@ urlBatchGenerat.replaceParamConfigLetter = function (urlArr, paramData) {
  * @param {Array} urlArr url数组
  * @param {Object} paramData 参数对象
  */
-urlBatchGenerat.replaceParamConfigTime = function (urlArr, paramData) {
+const replaceParamConfigTime = function (urlArr, paramData) {
 
 }
 
@@ -88,8 +95,8 @@ urlBatchGenerat.replaceParamConfigTime = function (urlArr, paramData) {
  * @param {Array} urlArr url数组
  * @param {Object} paramData 参数对象
  */
-urlBatchGenerat.replaceParamConfigCustomize = function (urlArr, paramData) {
+const replaceParamConfigCustomize = function (urlArr, paramData) {
 
 }
 
-export default urlBatchGenerat
+export default { replaceParamConfigNumber, replaceParamConfigLetter, replaceParamConfigTime, replaceParamConfigCustomize }

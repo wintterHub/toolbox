@@ -67,30 +67,15 @@
 <script>
 import util from "../../commonJS/util.js";
 export default {
+  props: {
+    value: Object
+  },
+
   data() {
     return {
       lowercaseLetters: util.getLowercaseLetters(),
       uppercaseLetters: util.getUppercaseLetters()
     };
-  },
-
-  watch: {
-    value: {
-      handler(newVal) {
-        this.$emit("change", newVal);
-      },
-      deep: true
-    }
-  },
-
-  props: {
-    value: Object,
-    type: String // add新建、edit编辑
-  },
-
-  mounted() {
-    // 设置默认值
-    this.$emit("change", this.value);
   }
 };
 </script>

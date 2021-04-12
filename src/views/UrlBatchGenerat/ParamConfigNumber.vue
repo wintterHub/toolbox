@@ -45,8 +45,8 @@
           v-model="value.endCondition"
           style="width: 150px;margin-right: 22px;"
         >
-        <el-option label="结束值" value="endValue"></el-option>
-        <el-option label="项数" value="count"></el-option>
+          <el-option label="结束值" value="endValue"></el-option>
+          <el-option label="项数" value="count"></el-option>
         </el-select>
         <el-input-number
           v-model="value.endConditionValue"
@@ -61,27 +61,8 @@
 
 <script>
 export default {
-  data() {
-    return {};
-  },
-
-  watch: {
-    value: {
-      handler(newVal) {
-        this.$emit("change", newVal);
-      },
-      deep: true
-    }
-  },
-
   props: {
-    value: Object,
-    type: String // add新建、edit编辑
-  },
-
-  mounted() {
-    // 设置默认值
-    this.$emit("change", this.value);
+    value: Object
   }
 };
 </script>

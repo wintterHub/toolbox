@@ -20,7 +20,7 @@ export default {
 
   computed: {
     // 对话框是否显示。组件内部使用computed显式的处理visible值,保证父子组件数据的单向流动
-    _visible: {
+    propVisible: {
       get () {
         return this.visible
       },

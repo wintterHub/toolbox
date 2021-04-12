@@ -79,7 +79,7 @@
                     @click="onEditClick(scope.row, scope.$index)"
                     style="margin-right: 10px;padding: 0;"
                   >
-                  <i class="far fa-edit"></i>&nbsp;编辑
+                    <i class="far fa-edit"></i>&nbsp;编辑
                   </el-button>
 
                   <el-popover
@@ -93,7 +93,7 @@
                         size="mini"
                         @click="onDeleteClick(scope.row, scope.$index)"
                       >
-                      <i class="fas fa-check-double"></i>&nbsp;确认删除
+                        <i class="fas fa-check-double"></i>&nbsp;确认删除
                       </el-button>
                     </div>
                     <el-button slot="reference" type="text" style="padding: 0;">
@@ -249,7 +249,7 @@ export default {
         );
         let funcName = `replace${upperCamelCaseType}`;
 
-        result = store[funcName](result, this.formData.paramDatas[i]);
+        result = store[funcName](result, this.formData.paramDatas[i]) || [];
       }
 
       this.formData.generatList = result;
