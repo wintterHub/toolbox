@@ -76,7 +76,7 @@ const replaceParamConfigLetter = function (urlArr, paramData) {
   let lowercaseEnd = paramData.paramConfigNumber.lowercaseEnd // 小写结束字母
   let uppercase = paramData.paramConfigNumber.uppercase // 开启大写
   let uppercaseStart = paramData.paramConfigNumber.uppercaseStart // 大写起始字母
-  let uppercaseStart = paramData.paramConfigNumber.uppercaseStart // 大写结束字母
+  let uppercaseEnd = paramData.paramConfigNumber.uppercaseEnd // 大写结束字母
 
   // TODO 逻辑待完成
 }
