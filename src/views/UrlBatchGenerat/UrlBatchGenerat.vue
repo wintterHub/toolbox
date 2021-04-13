@@ -185,6 +185,7 @@ export default {
   },
 
   mounted() {
+    /* 尝试从localStorage读取最近一次操作记录，并进行恢复 */
     const url = localStorage.getItem("url");
     const paramDatas = JSON.parse(localStorage.getItem("paramDatas"));
     if (url) {
