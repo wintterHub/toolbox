@@ -72,11 +72,11 @@ const initValue = {
   // 字母类型参数
   paramConfigLetter: {
     lowercase: true,
-    lowercaseStart: "a",
-    lowercaseEnd: "z",
+    lowercaseStart: "a".charCodeAt(0),
+    lowercaseEnd: "z".charCodeAt(0),
     uppercase: true,
-    uppercaseStart: "A",
-    uppercaseEnd: "Z"
+    uppercaseStart: "A".charCodeAt(0),
+    uppercaseEnd: "Z".charCodeAt(0)
   },
   // 时间类型参数
   paramConfigTime: {},

@@ -69,16 +69,35 @@ const replaceParamConfigNumber = function (urlArr, paramData) {
  * @param {Object} paramData 参数对象
  */
 const replaceParamConfigLetter = function (urlArr, paramData) {
+  debugger
   // 获取基本参数
   let name = `[${paramData.name}]` // 参数名
-  let lowercase = paramData.paramConfigNumber.lowercase // 开启小写
-  let lowercaseStart = paramData.paramConfigNumber.lowercaseStart // 小写起始字母
-  let lowercaseEnd = paramData.paramConfigNumber.lowercaseEnd // 小写结束字母
-  let uppercase = paramData.paramConfigNumber.uppercase // 开启大写
-  let uppercaseStart = paramData.paramConfigNumber.uppercaseStart // 大写起始字母
-  let uppercaseEnd = paramData.paramConfigNumber.uppercaseEnd // 大写结束字母
+  let lowercase = paramData.paramConfigLetter.lowercase // 开启小写
+  let lowercaseStart = paramData.paramConfigLetter.lowercaseStart // 小写起始字母
+  let lowercaseEnd = paramData.paramConfigLetter.lowercaseEnd // 小写结束字母
+  let uppercase = paramData.paramConfigLetter.uppercase // 开启大写
+  let uppercaseStart = paramData.paramConfigLetter.uppercaseStart // 大写起始字母
+  let uppercaseEnd = paramData.paramConfigLetter.uppercaseEnd // 大写结束字母
 
-  // TODO 逻辑待完成
+  let result = []
+  // 小写
+  if (lowercase) {
+    for (let index = lowercaseStart; index <= lowercaseEnd; index++) {
+      urlArr.forEach(url => {
+        result.push(url.replace(name, String.fromCharCode(index)))
+      })
+    }
+  }
+
+  // 大写
+  if (uppercase) {
+    for (let index = uppercaseStart; index <= uppercaseEnd; index++) {
+      urlArr.forEach(url => {
+        result.push(url.replace(name, String.fromCharCode(index)))
+      })
+    }
+  }
+  return result
 }
 
 /**

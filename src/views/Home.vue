@@ -63,27 +63,30 @@ export default {
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
   background: linear-gradient(90deg, #48a4f7, #bc42ab);
-  text-align: center;
+  text-align: right;
 }
 
 .header .title {
-  font-size: 30px;
-  font-weight: bold;
+  letter-spacing: -0.5px;
   color: #fff;
-  line-height: 55px;
+  font-family: Gotham SSm A, Gotham SSm B, system-ui, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans,
+    Helvetica Neue, Arial, sans-serif;
+  font-size: 95px;
+  font-weight: 900;
+  line-height: 60px;
   text-decoration: none;
 }
 
 .github {
   letter-spacing: 0px;
-  border-top: 1px solid #a9a9ab;
   height: 56px;
   width: 249px;
-  background-color: #3b3e43;
+  background: linear-gradient(90deg, #48a4f7, #bc42ab);
 }
 
 .github a {
-  color: #a9a9ab;
+  color: #fff;
   font-size: 16px;
   line-height: 56px;
   margin-left: 53px;

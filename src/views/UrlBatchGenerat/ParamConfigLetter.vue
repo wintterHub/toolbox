@@ -13,8 +13,9 @@
         >
           <el-option
             v-for="item in lowercaseLetters"
-            :key="item"
-            :value="item"
+            :key="item.charCodeAt(0)"
+            :value="item.charCodeAt(0)"
+            :label="item"
           ></el-option>
         </el-select>
         到
@@ -25,8 +26,9 @@
         >
           <el-option
             v-for="item in lowercaseLetters"
-            :key="item"
-            :value="item"
+            :key="item.charCodeAt(0)"
+            :value="item.charCodeAt(0)"
+            :label="item"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -43,8 +45,9 @@
         >
           <el-option
             v-for="item in uppercaseLetters"
-            :key="item"
-            :value="item"
+            :key="item.charCodeAt(0)"
+            :value="item.charCodeAt(0)"
+            :label="item"
           ></el-option>
         </el-select>
         到
@@ -55,8 +58,9 @@
         >
           <el-option
             v-for="item in uppercaseLetters"
-            :key="item"
-            :value="item"
+            :key="item.charCodeAt(0)"
+            :value="item.charCodeAt(0)"
+            :label="item"
           ></el-option>
         </el-select>
       </el-form-item>
