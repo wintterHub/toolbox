@@ -9,6 +9,7 @@
           class="el-input-url"
           @click.native="onUrlClick"
           @change="onGeneratClick"
+          clearable
         >
         </el-input>
       </el-form-item>

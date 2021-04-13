@@ -69,7 +69,6 @@ const replaceParamConfigNumber = function (urlArr, paramData) {
  * @param {Object} paramData 参数对象
  */
 const replaceParamConfigLetter = function (urlArr, paramData) {
-  debugger
   // 获取基本参数
   let name = `[${paramData.name}]` // 参数名
   let lowercase = paramData.paramConfigLetter.lowercase // 开启小写

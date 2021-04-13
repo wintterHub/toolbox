@@ -34,7 +34,9 @@
         class="main"
         style="overflow-y: auto; height: calc(100vh - 60px);"
       >
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </el-main>
     </el-container>
   </el-container>
