@@ -1,123 +1,109 @@
 <template>
   <div>
-    <el-form ref="form" :model="formData" label-width="100px">
-      <!-- 网络地址 -->
-      <el-form-item label="网络地址">
-        <el-input
-          v-model="formData.url"
-          placeholder="https://zhaochangjin.com/[参数1]?param=[参数2]"
-          class="el-input-url"
-          @click.native="onUrlClick"
-          @change="onGeneratClick"
-          clearable
+    <!-- 网络地址 -->
+    <el-card class="box-card" shadow="never" body-style="padding: 0px;">
+      <div slot="header">
+        <span>网络地址</span>
+        <el-button plain @click="onAddClick">
+          <i class="fas fa-plus"></i>&nbsp;添加参数
+        </el-button>
+      </div>
+      <el-input
+        v-model="formData.url"
+        placeholder="https://zhaochangjin.com/[参数1]?param=[参数2]"
+        class="el-input-url"
+        @click.native="onUrlClick"
+        @change="onGeneratClick"
+        clearable
+      >
+      </el-input>
+    </el-card>
+
+    <el-row style="margin-top: 20px;" :gutter="20">
+      <!-- 参数列表 -->
+      <el-col :span="9">
+        <el-table
+          stripe
+          :border="true"
+          :data="formData.paramDatas"
+          height="481"
+          :header-cell-style="{
+            background: '#F7F7F7',
+            color: '#50646F',
+            'font-size': '16px',
+            'border-color': '#EBEEF5'
+          }"
         >
-        </el-input>
-      </el-form-item>
+          <el-table-column align="center" prop="name" label="参数名">
+          </el-table-column>
+          <el-table-column align="center" prop="type" label="参数类型">
+            <template slot-scope="scope">
+              <span v-if="scope.row.type === 'paramConfigNumber'">
+                数字
+              </span>
+              <span v-if="scope.row.type === 'paramConfigLetter'">
+                字母
+              </span>
+              <span v-if="scope.row.type === 'paramConfigTime'">
+                时间
+              </span>
+              <span v-if="scope.row.type === 'paramConfigCustomize'">
+                自定义
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="address" label="操作">
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                @click="onEditClick(scope.row, scope.$index)"
+                style="margin-right: 10px;padding: 0;"
+              >
+                <i class="far fa-edit"></i>&nbsp;编辑
+              </el-button>
 
-      <el-button
-        @click="onAddClick"
-        type="primary"
-        round
-        style="margin-left: 100px; margin-bottom: 22px;"
-      >
-        <i class="fas fa-plus"></i>&nbsp;添加参数
-      </el-button>
-      <el-button
-        type="primary"
-        @click="onGeneratClick"
-        round
-        :disabled="isAutoGenerat"
-      >
-        <i class="fas fa-check"></i>&nbsp;生成地址
-      </el-button>
-      <el-checkbox
-        v-model="isAutoGenerat"
-        style="margin-left: 22px;"
-        @change="onRealTimeGeneratChange"
-      >
-        自动生成
-      </el-checkbox>
-
-      <el-row>
-        <el-col :span="9">
-          <!-- 参数列表 -->
-          <el-form-item label="参数列表">
-            <el-table
-              stripe
-              :border="true"
-              :data="formData.paramDatas"
-              size="mini"
-              height="469"
-              :header-cell-style="{
-                background: '#FAFAFA',
-                color: '#50646F',
-                'line-height': '21px',
-                'border-color': '#dcdfe6'
-              }"
-            >
-              <el-table-column align="center" prop="name" label="参数名">
-              </el-table-column>
-              <el-table-column align="center" prop="type" label="参数类型">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.type === 'paramConfigNumber'">
-                    数字
-                  </span>
-                  <span v-if="scope.row.type === 'paramConfigLetter'">
-                    字母
-                  </span>
-                  <span v-if="scope.row.type === 'paramConfigTime'">
-                    时间
-                  </span>
-                  <span v-if="scope.row.type === 'paramConfigCustomize'">
-                    自定义
-                  </span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" prop="address" label="操作">
-                <template slot-scope="scope">
+              <el-popover
+                placement="right"
+                v-model="delPopoverVisible[scope.$index]"
+              >
+                <div style="text-align: center;">
                   <el-button
-                    type="text"
-                    @click="onEditClick(scope.row, scope.$index)"
-                    style="margin-right: 10px;padding: 0;"
+                    plain
+                    type="danger"
+                    @click="onDeleteClick(scope.row, scope.$index)"
                   >
-                    <i class="far fa-edit"></i>&nbsp;编辑
+                    <i class="fas fa-check-double"></i>&nbsp;确认删除
                   </el-button>
+                </div>
+                <el-button slot="reference" type="text" style="padding: 0;">
+                  <i class="far fa-trash-alt"></i>&nbsp;删除
+                </el-button>
+              </el-popover>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
 
-                  <el-popover
-                    placement="right"
-                    v-model="delPopoverVisible[scope.$index]"
-                  >
-                    <div style="text-align: center;">
-                      <el-button
-                        type="danger"
-                        round
-                        size="mini"
-                        @click="onDeleteClick(scope.row, scope.$index)"
-                      >
-                        <i class="fas fa-check-double"></i>&nbsp;确认删除
-                      </el-button>
-                    </div>
-                    <el-button slot="reference" type="text" style="padding: 0;">
-                      <i class="far fa-trash-alt"></i>&nbsp;删除
-                    </el-button>
-                  </el-popover>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-form-item>
-        </el-col>
-
-        <!-- 生成结果 -->
-        <el-col :span="15">
-          <div class="generat-content-title">
+      <!-- 生成结果 -->
+      <el-col :span="15">
+        <el-card class="box-card" shadow="never" body-style="padding: 0px;">
+          <div slot="header">
+            <span>生成结果</span>
             <el-button
+              plain
               class="generat-content-copy-btn"
-              type="info"
-              style="padding: 3px; float: left;"
               :data-clipboard-text="formData.generatContent"
+              style="margin-left: 20px;"
+              :disabled="!formData.generatContent"
               ><i class="far fa-copy"></i>&nbsp;复制</el-button
             >
-            <span>生成结果</span>
+            <el-button
+              plain
+              @click="onBatchDownloadClick"
+              :disabled="!formData.generatContent"
+            >
+              <i class="fas fa-download"></i>&nbsp;迅雷批量下载
+            </el-button>
           </div>
           <el-input
             readonly
@@ -126,21 +112,12 @@
             v-model="formData.generatContent"
             resize="none"
           >
-          </el-input
-        ></el-col>
-      </el-row>
+          </el-input>
+        </el-card>
+      </el-col>
+    </el-row>
 
-      <el-form-item label="结果处理">
-        <el-button
-          type="primary"
-          @click="onBatchDownloadClick"
-          round
-          :disabled="!formData.generatContent"
-        >
-          <i class="fas fa-download"></i>&nbsp;迅雷批量下载
-        </el-button>
-      </el-form-item>
-    </el-form>
+    <!-- 参数弹窗 -->
     <param-form-dialog
       :visible="paramFormDialogVisible"
       :type="paramFormDialogType"
@@ -311,28 +288,8 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item {
-  width: 95%;
-}
-
 .el-table {
-  border-color: #dcdfe6;
+  border-color: #ebeef5;
   border-radius: 4px;
-}
-
-.generat-content-title {
-  border: 1px solid #dde0e7;
-  background-color: #fafafa;
-  border-radius: 4px 4px 0 0;
-  color: #50646f;
-  line-height: 23px;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  padding: 6px;
-}
-
-.el-row {
-  width: 95%;
 }
 </style>

@@ -10,9 +10,9 @@
           :default-openeds="['1']"
           default-active="/urlBatchGenerat"
           style="height: calc(100vh - 60px - 56px);"
-          background-color="#3B3E43"
-          text-color="#A9A9AB"
-          active-text-color="#ffffff"
+          background-color="#F7F7F7"
+          text-color="#50646F"
+          active-text-color="#000"
         >
           <el-menu-item index="/urlBatchGenerat">
             <i class="fas fa-link"></i>&nbsp;
@@ -93,9 +93,5 @@ export default {
   line-height: 56px;
   margin-left: 53px;
   text-decoration: none;
-}
-
-.main {
-  padding-top: 30px;
 }
 </style>
