@@ -1,8 +1,8 @@
 <template>
   <el-container class="wrapper">
-    <el-header class="header">
+    <!-- <el-header class="header">
       <a href="#" class="title" @click="goHome">ToolBox</a>
-    </el-header>
+    </el-header> -->
     <el-container>
       <el-aside width="250px">
         <el-menu
@@ -24,11 +24,11 @@
           </el-menu-item>
         </el-menu>
 
-        <div class="github">
+        <!-- <div class="github">
           <a href="https://github.com/wintterHub/toolbox" target="_black"
             >👉&nbsp;Give me star</a
           >
-        </div>
+        </div> -->
       </el-aside>
       <el-main
         class="main"

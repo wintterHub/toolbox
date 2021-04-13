@@ -66,6 +66,10 @@ body {
   border: 0;
 }
 
+.el-card .el-upload-dragger {
+  border: 0;
+}
+
 .el-dialog__footer .el-button + .el-button {
   margin-left: 15px;
 }
@@ -76,4 +80,8 @@ body {
 
 .el-menu {
   border-right-color: #ebeef5;
+}
+
+.el-table::before {
+  height: 0px;
 }

@@ -22,66 +22,60 @@
     <el-row style="margin-top: 20px;" :gutter="20">
       <!-- 参数列表 -->
       <el-col :span="9">
-        <el-table
-          stripe
-          :border="true"
-          :data="formData.paramDatas"
-          height="586"
-          :header-cell-style="{
-            background: '#F7F7F7',
-            color: '#50646F',
-            'font-size': '16px',
-            'border-color': '#EBEEF5'
-          }"
-        >
-          <el-table-column align="center" prop="name" label="参数名">
-          </el-table-column>
-          <el-table-column align="center" prop="type" label="参数类型">
-            <template slot-scope="scope">
-              <span v-if="scope.row.type === 'paramConfigNumber'">
-                数字
-              </span>
-              <span v-if="scope.row.type === 'paramConfigLetter'">
-                字母
-              </span>
-              <span v-if="scope.row.type === 'paramConfigTime'">
-                时间
-              </span>
-              <span v-if="scope.row.type === 'paramConfigCustomize'">
-                自定义
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="address" label="操作">
-            <template slot-scope="scope">
-              <el-button
-                type="text"
-                @click="onEditClick(scope.row, scope.$index)"
-                style="margin-right: 10px;padding: 0;"
-              >
-                <i class="far fa-edit"></i>&nbsp;编辑
-              </el-button>
-
-              <el-popover
-                placement="right"
-                v-model="delPopoverVisible[scope.$index]"
-              >
-                <div style="text-align: center;">
-                  <el-button
-                    plain
-                    type="danger"
-                    @click="onDeleteClick(scope.row, scope.$index)"
-                  >
-                    <i class="fas fa-check-double"></i>&nbsp;确认删除
-                  </el-button>
-                </div>
-                <el-button slot="reference" type="text" style="padding: 0;">
-                  <i class="far fa-trash-alt"></i>&nbsp;删除
+        <el-card class="box-card" shadow="never" body-style="padding: 0px;">
+          <div slot="header">
+            <span>参数列表</span>
+          </div>
+          <el-table stripe :data="formData.paramDatas" height="536">
+            <el-table-column align="center" prop="name" label="参数名">
+            </el-table-column>
+            <el-table-column align="center" prop="type" label="参数类型">
+              <template slot-scope="scope">
+                <span v-if="scope.row.type === 'paramConfigNumber'">
+                  数字
+                </span>
+                <span v-if="scope.row.type === 'paramConfigLetter'">
+                  字母
+                </span>
+                <span v-if="scope.row.type === 'paramConfigTime'">
+                  时间
+                </span>
+                <span v-if="scope.row.type === 'paramConfigCustomize'">
+                  自定义
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  type="text"
+                  @click="onEditClick(scope.row, scope.$index)"
+                  style="margin-right: 10px;padding: 0;"
+                >
+                  <i class="far fa-edit"></i>&nbsp;编辑
                 </el-button>
-              </el-popover>
-            </template>
-          </el-table-column>
-        </el-table>
+
+                <el-popover
+                  placement="right"
+                  v-model="delPopoverVisible[scope.$index]"
+                >
+                  <div style="text-align: center;">
+                    <el-button
+                      plain
+                      type="danger"
+                      @click="onDeleteClick(scope.row, scope.$index)"
+                    >
+                      <i class="fas fa-check-double"></i>&nbsp;确认删除
+                    </el-button>
+                  </div>
+                  <el-button slot="reference" type="text" style="padding: 0;">
+                    <i class="far fa-trash-alt"></i>&nbsp;删除
+                  </el-button>
+                </el-popover>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
       </el-col>
 
       <!-- 生成结果 -->
