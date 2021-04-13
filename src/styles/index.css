@@ -29,7 +29,7 @@ body {
 
 .el-dialog__footer {
   padding: 15px;
-  background-color: #fafafa;
+  background-color: #f7f7f7;
   border-radius: 0 0 4px 4px;
 }
 
@@ -39,4 +39,41 @@ body {
 
 .el-form-item__label {
   font-size: 15px;
+}
+
+.el-card__header {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.el-card__header {
+  line-height: 40px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  color: #50646f;
+}
+
+.el-card__header .el-button {
+  float: right;
+}
+
+.el-card .el-textarea__inner {
+  border: 0;
+}
+
+.el-card .el-input__inner {
+  border: 0;
+}
+
+.el-dialog__footer .el-button + .el-button {
+  margin-left: 15px;
+}
+
+.el-dialog__footer .el-button {
+  width: 92px;
+}
+
+.el-menu {
+  border-right-color: #ebeef5;
 }

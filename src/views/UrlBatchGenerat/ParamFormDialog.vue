@@ -36,13 +36,12 @@
     </el-form>
 
     <span slot="footer">
-      <el-button @click="propVisible = false" round
+      <el-button plain @click="propVisible = false"
         ><i class="fas fa-times"></i>&nbsp;取 消</el-button
       >
       <el-button
-        type="primary"
+        plain
         @click="$emit('confirm', JSON.parse(JSON.stringify(returnValue)))"
-        round
         ><i class="fas fa-check"></i>&nbsp;确 定</el-button
       >
     </span>

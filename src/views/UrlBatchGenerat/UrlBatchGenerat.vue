@@ -26,7 +26,7 @@
           stripe
           :border="true"
           :data="formData.paramDatas"
-          height="481"
+          height="586"
           :header-cell-style="{
             background: '#F7F7F7',
             color: '#50646F',
@@ -108,7 +108,7 @@
           <el-input
             readonly
             type="textarea"
-            rows="20"
+            rows="25"
             v-model="formData.generatContent"
             resize="none"
           >
@@ -163,7 +163,8 @@ export default {
       cursorEndPosition: 0,
 
       delPopoverVisible: [],
-      isAutoGenerat: true
+      isAutoGenerat: true,
+      nameIndex: 1
     };
   },
 
@@ -183,6 +184,18 @@ export default {
     }
   },
 
+  mounted() {
+    const url = localStorage.getItem("url");
+    const paramDatas = JSON.parse(localStorage.getItem("paramDatas"));
+    if (url) {
+      this.formData.url = url;
+    }
+    if (paramDatas) {
+      this.formData.paramDatas = paramDatas;
+    }
+    this.isAutoGenerat && this.onGeneratClick();
+  },
+
   methods: {
     onUrlClick() {
       // 获取光标起始位置
@@ -198,7 +211,8 @@ export default {
       this.paramFormDialogType = "add";
       this.paramFormDialogVisible = true;
       // 递增生成参数名
-      let newName = `参数${this.formData.paramDatas.length + 1}`;
+      let newName = `参数${this.nameIndex}`;
+      this.nameIndex += 1;
       this.currentParamData = { name: newName };
     },
 
@@ -233,6 +247,13 @@ export default {
       this.formData.generatList = result;
       this.formData.generatContent = result.join("\n");
       !this.isAutoGenerat && this.$message.success("执行完毕");
+
+      // 存储到localStorage
+      localStorage.setItem("url", this.formData.url);
+      localStorage.setItem(
+        "paramDatas",
+        JSON.stringify(this.formData.paramDatas)
+      );
     },
 
     onDialogConfirm(val) {
