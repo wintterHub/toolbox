@@ -110,3 +110,7 @@ body {
 .el-popover__reference-wrapper .fa-question-circle-o:hover {
   color: #167dff;
 }
+
+.el-button .gold {
+  background-color: gold;
+}
