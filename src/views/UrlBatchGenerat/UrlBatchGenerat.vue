@@ -4,14 +4,11 @@
     <el-card class="box-card" shadow="never" body-style="padding: 0px;">
       <div slot="header">
         <span>网络地址</span>
-        <el-button plain @click="onAddClick">
-          <i class="fas fa-plus"></i>&nbsp;添加参数
-        </el-button>
       </div>
       <el-input
         v-model="formData.url"
-        placeholder="https://zhaochangjin.com/[参数1]?param=[参数2]"
-        class="el-input-url"
+        placeholder="示例：https://zhaochangjin.com/[参数1]?param=[参数2]"
+        class="el-input-url noborder"
         @click.native="onUrlClick"
         @change="onGeneratClick"
         clearable
@@ -25,6 +22,9 @@
         <el-card class="box-card" shadow="never" body-style="padding: 0px;">
           <div slot="header">
             <span>参数列表</span>
+            <el-button plain @click="onAddClick">
+              <i class="fas fa-plus"></i>&nbsp;添加参数
+            </el-button>
           </div>
           <el-table stripe :data="formData.paramDatas" height="536">
             <el-table-column align="center" prop="name" label="参数名">
@@ -100,6 +100,7 @@
             </el-button>
           </div>
           <el-input
+            class="noborder"
             readonly
             type="textarea"
             rows="25"

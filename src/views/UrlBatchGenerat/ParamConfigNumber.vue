@@ -11,16 +11,14 @@
         <el-checkbox v-model="value.isZeroPadding" style="margin-left: 22px;"
           >补零</el-checkbox
         >
-        <el-popover placement="right" trigger="hover">
-          <div>不补零格式：1、2、3 ... 1000</div>
-          <div style="margin-top: 10px;">
-            补零格式：0001、0002、0003 ... 1000
+        <el-popover placement="top" trigger="click">
+          <div class="sunken">
+            <div>不补零格式：1、2、3 ... 1000</div>
+            <div style="margin-top: 10px;">
+              补零格式：0001、0002、0003 ... 1000
+            </div>
           </div>
-          <i
-            class="fa fa-question-circle-o"
-            style="margin-left: 22px;"
-            slot="reference"
-          ></i>
+          <i class="fa fa-question-circle-o" slot="reference"></i>
         </el-popover>
       </el-form-item>
 

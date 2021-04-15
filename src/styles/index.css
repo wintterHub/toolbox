@@ -58,15 +58,15 @@ body {
   float: right;
 }
 
-.el-card .el-textarea__inner {
+.el-card .noborder .el-textarea__inner {
   border: 0;
 }
 
-.el-card .el-input__inner {
+.el-card .noborder .el-input__inner {
   border: 0;
 }
 
-.el-card .el-upload-dragger {
+.el-card .noborder .el-upload-dragger {
   border: 0;
 }
 
@@ -84,4 +84,29 @@ body {
 
 .el-table::before {
   height: 0px;
+}
+
+.el-popover .el-upload {
+  display: inline-flex;
+}
+
+.el-popover .sunken {
+  /* padding: 8px; */
+  /* background-color: #f7f7f7; */
+  max-width: 500px;
+}
+
+.el-popover .sunken span {
+  font-weight: bold;
+}
+
+.el-popover__reference-wrapper .fa-question-circle-o {
+  margin-left: 20px;
+  color: #c6c6c6;
+  font-size: 16px;
+  cursor: help;
+}
+
+.el-popover__reference-wrapper .fa-question-circle-o:hover {
+  color: #167dff;
 }
