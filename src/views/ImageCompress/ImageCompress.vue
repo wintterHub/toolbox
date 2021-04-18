@@ -146,6 +146,11 @@ export default {
     if (localStorage.getItem("goldDelete") === "1") {
       this.isGoldDelete = true;
     }
+    /* 尝试从localStorage读取最近一次配置参数，并进行恢复 */
+    let imageCompressOptions = localStorage.getItem("imageCompressOptions");
+    if (imageCompressOptions) {
+      this.options = JSON.parse(imageCompressOptions);
+    }
   },
 
   methods: {

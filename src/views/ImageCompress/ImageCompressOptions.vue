@@ -375,6 +375,15 @@ export default {
     }
   },
 
+  watch: {
+    options: {
+      handler(val) {
+        localStorage.setItem("imageCompressOptions", JSON.stringify(val));
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.options = JSON.parse(JSON.stringify(initOptions));
   },
