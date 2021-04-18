@@ -5,7 +5,7 @@ const util = {}
  * @param {String} path JS路径
  * @param {Function} callback 回调
  */
-util.loadJs = (path, callback) => {
+function loadJs(path, callback) {
   let secScript = document.createElement("script")
   secScript.setAttribute("src", path)
   document.body.insertBefore(secScript, document.body.lastChild)
@@ -30,7 +30,7 @@ util.loadJs = (path, callback) => {
  * @param {String} c 填充字符
  * @param {Number} length 填充长度
  */
-util.leftPad = function (srcString, c, length) {
+function leftPad(srcString, c, length) {
   if (srcString == null) {
     srcString = ""
   }
@@ -50,7 +50,7 @@ util.leftPad = function (srcString, c, length) {
 /**
  * 获取26个英文大写字母
  */
-util.getUppercaseLetters = function () {
+function getUppercaseLetters() {
   let str = []
   for (let i = 65; i < 91; i++) {
     str.push(String.fromCharCode(i))
@@ -61,7 +61,7 @@ util.getUppercaseLetters = function () {
 /**
  * 获取26个英文小写字母
  */
-util.getLowercaseLetters = function () {
+function getLowercaseLetters() {
   let str = []
   for (let i = 97; i < 123; i++) {
     str.push(String.fromCharCode(i))
@@ -73,8 +73,20 @@ util.getLowercaseLetters = function () {
  * 字符串第一个字母大写
  * @param {String} param0 待转换字符串
  */
-util.toUpperCamelCase = function ([first, ...rest]) {
+function toUpperCamelCase([first, ...rest]) {
   return first.toUpperCase() + rest.join('')
 }
 
-export default util
+/**
+ * 通过Blob对象下载文件
+ * @param {Blob} blob Blob对象
+ * @param {String} filename 文件名，为空时取blob.name
+ */
+function downloadFileByBlob(blob, filename) {
+  let link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = filename || blob.name
+  link.click()
+}
+
+export default { loadJs, leftPad, getUppercaseLetters, getLowercaseLetters, toUpperCamelCase, downloadFileByBlob }

@@ -32,7 +32,7 @@
               >
             </el-popover>
 
-            <el-button plain style="margin-left: 20px;"
+            <el-button plain style="margin-left: 20px;" @click="onCompressClick"
               ><i class="far fa-images"></i>&nbsp;开始压缩</el-button
             >
 
@@ -65,6 +65,7 @@
             height="655"
             :data="fileList"
             @selection-change="onSelectionChange"
+            ref="imageTable"
           >
             <el-table-column
               type="selection"
@@ -75,12 +76,37 @@
               label="图片名称"
               prop="name"
               show-overflow-tooltip
+              min-width="200"
             ></el-table-column>
-            <el-table-column label="大小" prop="size"></el-table-column>
+            <el-table-column label="大小">
+              <template slot-scope="scope">
+                {{ formatSize(scope.row.size, "0 KB") }}
+              </template>
+            </el-table-column>
             <el-table-column label="类型" prop="raw[type]"></el-table-column>
             <el-table-column label="状态">
-              <template>
-                待压缩
+              <template slot-scope="scope">
+                <span v-if="!scope.row.compressStatus">待压缩</span>
+                <span
+                  v-if="scope.row.compressStatus === 1"
+                  style="color: #E6A23C;"
+                  >压缩中</span
+                >
+                <span
+                  v-if="scope.row.compressStatus === 2"
+                  style="color: #67C23A;"
+                  >已完成</span
+                >
+              </template>
+            </el-table-column>
+            <el-table-column label="压缩后大小">
+              <template slot-scope="scope">
+                {{ formatSize(scope.row.afterCompressSize, "-") }}
+              </template>
+            </el-table-column>
+            <el-table-column label="压缩比例">
+              <template slot-scope="scope">
+                {{ getCompressionRatio(scope.row) }}
               </template>
             </el-table-column>
           </el-table>
@@ -97,6 +123,8 @@
 <script>
 import ImageCompressOptions from "./ImageCompressOptions.vue";
 import easterEggs from "../../commonJS/easterEggs.js";
+import compressImagefrom from "../../commonJS/compressImage.js";
+import util from "../../commonJS/util.js";
 
 export default {
   components: {
@@ -124,15 +152,23 @@ export default {
     onChange(file, fileList) {
       this.fileList = fileList;
       this.uploadVisible = false;
-      console.log(fileList);
+      // 选择图片后自动选中
+      this.$nextTick(() => {
+        this.$refs.imageTable.toggleRowSelection(
+          this.fileList.find(item => item.uid === file.uid),
+          true
+        );
+      });
     },
 
     onDeleteBlur() {
+      // 删除按钮失去焦点后隐藏二次确认框
       this.deleteCheckDoubleVisible = false;
     },
 
     onDeleteClick() {
       if (this.fileList.length === 0) {
+        // 彩蛋
         this.deleteCheckDoubleVisible = false;
         if (easterEggs.getDeleteMessage()) {
           this.isGoldDelete = true;
@@ -151,6 +187,7 @@ export default {
     },
 
     onDeleteCheckDoubleClick() {
+      // 将选中的图片从列表中删除
       this.selectionRows.forEach(item => {
         this.fileList.splice(
           this.fileList.findIndex(file => file.uid === item.uid),
@@ -164,7 +201,75 @@ export default {
       this.selectionRows = selection;
     },
 
-    onCompressAllClick() {}
+    onCompressClick() {
+      this.$message.closeAll();
+      if (this.fileList.length === 0) {
+        this.$message.info("请先上传图片");
+      } else if (this.selectionRows.length <= 0) {
+        this.deleteCheckDoubleVisible = false;
+        this.$message.info("请选择需要压缩的图片");
+      } else if (this.options.fastCompress) {
+        // 开启了快速压缩，异步执行压缩逻辑
+        this._asyncCompress();
+      } else {
+        // 未开启快速压缩，同步执行压缩逻辑
+        this._syncCompress();
+      }
+    },
+
+    // 异步执行压缩逻辑
+    _asyncCompress() {
+      this.selectionRows.forEach(async row => {
+        this._compress(this.fileList, row, this.options);
+      });
+    },
+
+    // 同步执行压缩逻辑
+    async _syncCompress() {
+      for (const row of this.selectionRows) {
+        await this._compress(this.fileList, row, this.options);
+      }
+    },
+
+    // 压缩逻辑块
+    async _compress(tableList, row, options) {
+      this._setTableCall(tableList, row.uid, "compressStatus", 1);
+      let blob = await compressImagefrom.compress(row.raw, options);
+      util.downloadFileByBlob(blob);
+      this._setTableCall(tableList, row.uid, "compressStatus", 2);
+      this._setTableCall(tableList, row.uid, "afterCompressSize", blob.size);
+    },
+
+    // 设置表格中某个单元的值
+    _setTableCall(tableList, uid, column, value) {
+      let rowIndex = tableList.findIndex(item => item.uid === uid);
+      let oldRow = tableList.find(item => item.uid === uid);
+      let newRow = Object.assign({}, oldRow, { [column]: value });
+      tableList.splice(rowIndex, 1, newRow);
+    },
+
+    // 计算压缩率
+    getCompressionRatio(row) {
+      if (!row.afterCompressSize) {
+        return "-";
+      } else {
+        return Math.round((row.afterCompressSize / row.size) * 100) + "%";
+      }
+    },
+
+    // 格式化文件大小
+    formatSize(filesize, defaultValue) {
+      if (!filesize) {
+        return defaultValue;
+      }
+      let unitArr = new Array("B", "KB", "MB", "GB");
+      let index = 0;
+      let srcsize = parseFloat(filesize);
+      index = Math.floor(Math.log(srcsize) / Math.log(1024));
+      let size = srcsize / Math.pow(1024, index);
+      size = size.toFixed(2); //保留的小数位数
+      return size + unitArr[index];
+    }
   }
 };
 </script>

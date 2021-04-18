@@ -64,10 +64,10 @@
         </el-button>
       </div>
       <el-slider
-        :step="10"
-        :format-tooltip="formatTooltip"
+        :step="0.1"
         style="margin: 0 20px;"
         v-model="options.quality"
+        :max="1"
       >
       </el-slider>
     </el-card>
@@ -146,6 +146,22 @@
                   压缩后图像的Exif信息将被删除，因此如果您需要Exif信息，可能还需要上载原始图像
                 </li>
               </ul>
+            </div>
+            <i class="fa fa-question-circle-o" slot="reference">
+            </i> </el-popover
+        ></el-form-item>
+        <el-form-item label="快速压缩"
+          ><el-switch
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            v-model="options.fastCompress"
+          >
+          </el-switch>
+          <el-popover placement="top" trigger="click">
+            <div class="sunken">
+              <span>
+                表示所有图片同时开始压缩。开启后可能会占用较多系统资源。
+              </span>
             </div>
             <i class="fa fa-question-circle-o" slot="reference">
             </i> </el-popover
@@ -273,9 +289,9 @@
         </el-form-item>
         <el-form-item label="转换器大小">
           <el-input-number
-            :min="1"
+            :min="0"
             v-model="options.convertSize"
-            placeholder="无穷大"
+            placeholder="5000000"
           ></el-input-number>
           字节
           <el-popover placement="top" trigger="click">
@@ -322,8 +338,9 @@
 
 <script>
 const initOptions = {
-  quality: 80, // 压缩质量
+  quality: 0.8, // 压缩质量
   strict: true, // 严格模式
+  fastCompress: false, // 快速压缩
   checkOrientation: true, // 检查方向
   maxWidth: undefined, // 最大宽度
   maxHeight: undefined, // 最大高度
@@ -332,7 +349,7 @@ const initOptions = {
   width: undefined, // 宽度
   height: undefined, // 高度
   mimeType: undefined, // MIME类型
-  convertSize: undefined // 转换器大小
+  convertSize: 0 // 转换器大小
 };
 
 export default {
@@ -359,7 +376,7 @@ export default {
   },
 
   mounted() {
-    this.$emit("change", JSON.parse(JSON.stringify(initOptions)));
+    this.options = JSON.parse(JSON.stringify(initOptions));
   },
 
   data() {
@@ -433,11 +450,6 @@ export default {
   },
 
   methods: {
-    // 格式化滑块提示值
-    formatTooltip(val) {
-      return val / 100;
-    },
-
     onMaxWidthChange(val, oldValue) {
       // 最小宽度不能大于最大宽度
       if (val < this.options.minWidth) {

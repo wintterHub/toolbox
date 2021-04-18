@@ -1,7 +1,7 @@
 <template>
   <el-container class="wrapper">
     <el-header class="header">
-      <!-- <a href="#" class="title" @click="goHome">ToolBox</a> -->
+      <a href="#" class="title" @click="goHome">ToolBox</a>
     </el-header>
     <el-container>
       <el-aside width="250px">
@@ -24,9 +24,9 @@
         </el-menu>
 
         <div class="github">
-          <!-- <a href="https://github.com/wintterHub/toolbox" target="_black"
+          <a href="https://github.com/wintterHub/toolbox" target="_black"
             >👉&nbsp;Give me star</a
-          > -->
+          >
         </div>
       </el-aside>
       <el-main
@@ -67,7 +67,7 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
-  /* background: linear-gradient(90deg, #48a4f7, #bc42ab); */
+  background: linear-gradient(90deg, #48a4f7, #bc42ab);
   text-align: right;
 }
 
@@ -87,7 +87,7 @@ export default {
   letter-spacing: 0px;
   height: 56px;
   width: 249px;
-  /* background: linear-gradient(90deg, #48a4f7, #bc42ab); */
+  background: linear-gradient(90deg, #48a4f7, #bc42ab);
 }
 
 .github a {
