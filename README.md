@@ -6,11 +6,8 @@
 
 >  [链接批量生成](https://wintterhub.github.io/toolbox/dist/#/UrlBatchGenerat)
 
+>  [图片压缩](https://wintterhub.github.io/toolbox/dist/#/ImageCompress)
+
 其他工具：
 
 > [种子编辑器](https://sdjdd.github.io/whitewash-torrent/demo/)
-
-> [图片压缩](https://fengyuanchen.github.io/compressorjs/)
-
-已知问题：
-当数字参数递增为0时，页面会崩溃

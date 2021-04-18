@@ -78,11 +78,6 @@
               show-overflow-tooltip
               min-width="200"
             ></el-table-column>
-            <el-table-column label="大小">
-              <template slot-scope="scope">
-                {{ formatSize(scope.row.size, "0 KB") }}
-              </template>
-            </el-table-column>
             <el-table-column label="类型" prop="raw[type]"></el-table-column>
             <el-table-column label="状态">
               <template slot-scope="scope">
@@ -97,6 +92,11 @@
                   style="color: #67C23A;"
                   >已完成</span
                 >
+              </template>
+            </el-table-column>
+            <el-table-column label="大小">
+              <template slot-scope="scope">
+                {{ formatSize(scope.row.size, "0 KB") }}
               </template>
             </el-table-column>
             <el-table-column label="压缩后大小">
