@@ -89,4 +89,22 @@ function downloadFileByBlob(blob, filename) {
   link.click()
 }
 
-export default { loadJs, leftPad, getUppercaseLetters, getLowercaseLetters, toUpperCamelCase, downloadFileByBlob }
+/**
+ * 格式化文件大小
+ * @param {Number} filesize 文件大小，单位Bytes
+ * @param {String} defaultValue 文件大小为空或为0时的返回该值
+ */
+function formatSize(filesize, defaultValue) {
+  if (!filesize) {
+    return defaultValue || "0KB"
+  }
+  let unitArr = new Array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB', 'CB')
+  let index = 0
+  let srcsize = parseFloat(filesize)
+  index = Math.floor(Math.log(srcsize) / Math.log(1024))
+  let size = srcsize / Math.pow(1024, index)
+  size = size.toFixed(2) //保留的小数位数
+  return size + unitArr[index]
+}
+
+export default { loadJs, leftPad, getUppercaseLetters, getLowercaseLetters, toUpperCamelCase, downloadFileByBlob, formatSize }

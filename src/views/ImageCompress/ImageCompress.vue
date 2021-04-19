@@ -96,12 +96,12 @@
             </el-table-column>
             <el-table-column label="大小">
               <template slot-scope="scope">
-                {{ formatSize(scope.row.size, "0 KB") }}
+                {{ util.formatSize(scope.row.size, "0 KB") }}
               </template>
             </el-table-column>
             <el-table-column label="压缩后大小">
               <template slot-scope="scope">
-                {{ formatSize(scope.row.afterCompressSize, "-") }}
+                {{ util.formatSize(scope.row.afterCompressSize, "-") }}
               </template>
             </el-table-column>
             <el-table-column label="压缩比例">
@@ -138,7 +138,8 @@ export default {
       selectionRows: [],
       deleteCheckDoubleVisible: false,
       uploadVisible: false,
-      isGoldDelete: false
+      isGoldDelete: false,
+      util: util
     };
   },
 
@@ -260,20 +261,6 @@ export default {
       } else {
         return Math.round((row.afterCompressSize / row.size) * 100) + "%";
       }
-    },
-
-    // 格式化文件大小
-    formatSize(filesize, defaultValue) {
-      if (!filesize) {
-        return defaultValue;
-      }
-      let unitArr = new Array("B", "KB", "MB", "GB");
-      let index = 0;
-      let srcsize = parseFloat(filesize);
-      index = Math.floor(Math.log(srcsize) / Math.log(1024));
-      let size = srcsize / Math.pow(1024, index);
-      size = size.toFixed(2); //保留的小数位数
-      return size + unitArr[index];
     }
   }
 };
