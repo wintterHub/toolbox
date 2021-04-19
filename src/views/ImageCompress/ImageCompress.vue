@@ -49,6 +49,7 @@
                 :show-file-list="false"
                 :auto-upload="false"
                 :on-change="onChange"
+                accept="image/*"
               >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
@@ -73,13 +74,17 @@
               align="center"
             ></el-table-column>
             <el-table-column
+              show-overflow-tooltip
               label="图片名称"
               prop="name"
-              show-overflow-tooltip
               min-width="200"
             ></el-table-column>
-            <el-table-column label="类型" prop="raw[type]"></el-table-column>
-            <el-table-column label="状态">
+            <el-table-column
+              show-overflow-tooltip
+              label="类型"
+              prop="raw[type]"
+            ></el-table-column>
+            <el-table-column show-overflow-tooltip label="状态">
               <template slot-scope="scope">
                 <span v-if="!scope.row.compressStatus">待压缩</span>
                 <span
@@ -92,19 +97,24 @@
                   style="color: #67C23A;"
                   >已完成</span
                 >
+                <span
+                  v-if="scope.row.compressStatus === 3"
+                  style="color: #F56C6C;"
+                  >不支持</span
+                >
               </template>
             </el-table-column>
-            <el-table-column label="大小">
+            <el-table-column show-overflow-tooltip label="大小">
               <template slot-scope="scope">
                 {{ util.formatSize(scope.row.size, "0 KB") }}
               </template>
             </el-table-column>
-            <el-table-column label="压缩后大小">
+            <el-table-column show-overflow-tooltip label="压缩后大小">
               <template slot-scope="scope">
                 {{ util.formatSize(scope.row.afterCompressSize, "-") }}
               </template>
             </el-table-column>
-            <el-table-column label="压缩比例">
+            <el-table-column show-overflow-tooltip label="压缩比例">
               <template slot-scope="scope">
                 {{ getCompressionRatio(scope.row) }}
               </template>
@@ -160,10 +170,11 @@ export default {
       this.uploadVisible = false;
       // 选择图片后自动选中
       this.$nextTick(() => {
-        this.$refs.imageTable.toggleRowSelection(
-          this.fileList.find(item => item.uid === file.uid),
-          true
-        );
+        if (this._checkImage(file.raw.type)) {
+          this.$refs.imageTable.toggleRowSelection(file, true);
+        } else {
+          this._setTableCall(fileList, file.uid, "compressStatus", 3);
+        }
       });
     },
 
@@ -237,8 +248,21 @@ export default {
       }
     },
 
+    // 图片文件类型检测
+    _checkImage(type) {
+      if (type.indexOf("image/") > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     // 压缩逻辑块
     async _compress(tableList, row, options) {
+      if (!this._checkImage(row.raw.type)) {
+        this.$message.warning(`已跳过“${row.name}”，不支持该类型的文件`);
+        return;
+      }
       this._setTableCall(tableList, row.uid, "compressStatus", 1);
       let blob = await compressImagefrom.compress(row.raw, options);
       util.downloadFileByBlob(blob);
