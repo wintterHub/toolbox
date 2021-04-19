@@ -1,21 +1,5 @@
 <template>
   <div>
-    <!-- 保存路径 -->
-    <!-- <el-card class="box-card" shadow="never" body-style="padding: 0px;">
-          <div slot="header">
-            <span>保存路径</span>
-            <el-button plain
-              ><i class="fas fa-mouse-pointer"></i>&nbsp;选择</el-button
-            >
-          </div>
-          <el-input
-            class="noborder"
-            placeholder="请选择压缩完成的图片保存路径"
-            clearable
-          >
-          </el-input>
-        </el-card> -->
-
     <!-- 压缩质量 -->
     <el-card class="box-card" shadow="never" body-style="padding: 0px;">
       <div slot="header">
@@ -112,8 +96,8 @@
                 >表示在压缩图像的大小大于原始图像的大小时是否输出原始图像而不是压缩图像，但下列情况除外：</span
               >
               <ul style="margin: 12px 0 0;">
-                <li>设置了“最小宽度”选项，其值大于图像的原始宽度</li>
-                <li>设置了“最小高度”选项，其值大于图像的原始高度</li>
+                <li>设置了“最小宽度”选项，且其值大于图像的原始宽度</li>
+                <li>设置了“最小高度”选项，且其值大于图像的原始高度</li>
                 <li>设置了“宽度”选项，且其值大于图像原始宽度</li>
                 <li>设置了“高度”选项，且其值大于图像原始高度</li>
                 <li>设置了“MIME类型”选项，且其值与图像的MIME类型不同</li>
