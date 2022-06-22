@@ -6,12 +6,12 @@
     <el-container>
       <el-aside width="250px">
         <el-menu
-          router
-          :default-active="defaultActive"
-          style="height: calc(100vh - 60px - 56px);"
-          background-color="#F7F7F7"
-          text-color="#50646F"
-          active-text-color="#409EFF"
+            router
+            :default-active="defaultActive"
+            style="height: calc(100vh - 60px - 56px);"
+            background-color="#F7F7F7"
+            text-color="#50646F"
+            active-text-color="#409EFF"
         >
           <el-menu-item index="/UrlBatchGenerat">
             <i class="fas fa-link"></i>&nbsp;
@@ -21,17 +21,25 @@
             <i class="far fa-images"></i>&nbsp;
             <span slot="title">图片压缩</span>
           </el-menu-item>
+          <el-menu-item index="/YouGetScriptGenerat" disabled>
+            <i class="far fa-file-video-o"></i>&nbsp;
+            <span slot="title">You-Get脚本生成</span>
+          </el-menu-item>
+          <el-menu-item index="/WebPDecode" disabled>
+            <i class="far fa-picture-o"></i>&nbsp;
+            <span slot="title">WebP转码</span>
+          </el-menu-item>
         </el-menu>
 
         <div class="github">
           <a href="https://github.com/wintterHub/toolbox" target="_black"
-            >👉&nbsp;Give me star</a
+          >👉&nbsp;Give me star</a
           >
         </div>
       </el-aside>
       <el-main
-        class="main"
-        style="overflow-y: auto; height: calc(100vh - 60px);"
+          class="main"
+          style="overflow-y: auto; height: calc(100vh - 60px);"
       >
         <keep-alive>
           <router-view></router-view>
@@ -75,8 +83,8 @@ export default {
   letter-spacing: -0.5px;
   color: #fff;
   font-family: Gotham SSm A, Gotham SSm B, system-ui, -apple-system,
-    BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans,
-    Helvetica Neue, Arial, sans-serif;
+  BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans,
+  Helvetica Neue, Arial, sans-serif;
   font-size: 95px;
   font-weight: 900;
   line-height: 60px;

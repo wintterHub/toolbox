@@ -79,8 +79,8 @@
         </el-button>
       </div>
       <el-form
-        style="height: 506px; padding: 20px; overflow-y: auto;"
-        label-width="110px"
+        style="height: calc(100vh - 300px); padding: 20px; overflow-y: auto;"
+        label-width="97px"
         label-position="left"
       >
         <el-form-item label="严格模式"
@@ -130,22 +130,6 @@
                   压缩后图像的Exif信息将被删除，因此如果您需要Exif信息，可能还需要上载原始图像
                 </li>
               </ul>
-            </div>
-            <i class="fa fa-question-circle-o" slot="reference">
-            </i> </el-popover
-        ></el-form-item>
-        <el-form-item label="快速压缩"
-          ><el-switch
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            v-model="options.fastCompress"
-          >
-          </el-switch>
-          <el-popover placement="top" trigger="click">
-            <div class="sunken">
-              <span>
-                表示所有图片同时开始压缩。开启后可能会占用较多系统资源。
-              </span>
             </div>
             <i class="fa fa-question-circle-o" slot="reference">
             </i> </el-popover
@@ -324,7 +308,6 @@
 const initOptions = {
   quality: 0.8, // 压缩质量
   strict: true, // 严格模式
-  fastCompress: false, // 快速压缩
   checkOrientation: true, // 检查方向
   maxWidth: undefined, // 最大宽度
   maxHeight: undefined, // 最大高度

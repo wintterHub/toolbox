@@ -26,7 +26,7 @@
               <i class="fas fa-plus"></i>&nbsp;添加参数
             </el-button>
           </div>
-          <el-table stripe :data="formData.paramDatas" height="536">
+          <el-table stripe :data="formData.paramDatas" height="calc(100vh - 261px)">
             <el-table-column align="center" prop="name" label="参数名">
             </el-table-column>
             <el-table-column align="center" prop="type" label="参数类型">
@@ -103,7 +103,8 @@
             class="noborder"
             readonly
             type="textarea"
-            rows="25"
+            autosize
+            style="height: calc(100vh - 261px);overflow-y: auto;"
             v-model="formData.generatContent"
             resize="none"
           >

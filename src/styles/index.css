@@ -60,6 +60,7 @@ body {
 
 .el-card .noborder .el-textarea__inner {
   border: 0;
+  overflow-y: hidden;
 }
 
 .el-card .noborder .el-input__inner {

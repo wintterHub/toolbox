@@ -63,7 +63,7 @@
           </div>
           <el-table
             stripe
-            height="655"
+            height="calc(100vh - 152px)"
             :data="fileList"
             @selection-change="onSelectionChange"
             ref="imageTable"
@@ -109,7 +109,7 @@
                 {{ util.formatSize(scope.row.size, "0 KB") }}
               </template>
             </el-table-column>
-            <el-table-column show-overflow-tooltip label="压缩后大小">
+            <el-table-column show-overflow-tooltip label="压缩后大小" min-width="94">
               <template slot-scope="scope">
                 {{ util.formatSize(scope.row.afterCompressSize, "-") }}
               </template>
@@ -225,23 +225,13 @@ export default {
       } else if (this.selectionRows.length <= 0) {
         this.deleteCheckDoubleVisible = false;
         this.$message.info("请选择需要压缩的图片");
-      } else if (this.options.fastCompress) {
-        // 开启了快速压缩，异步执行压缩逻辑
-        this._asyncCompress();
-      } else {
-        // 未开启快速压缩，同步执行压缩逻辑
+      }  else {
+        // 执行压缩逻辑
         this._syncCompress();
       }
     },
 
-    // 异步执行压缩逻辑
-    _asyncCompress() {
-      this.selectionRows.forEach(async row => {
-        this._compress(this.fileList, row, this.options);
-      });
-    },
-
-    // 同步执行压缩逻辑
+    // 执行压缩逻辑
     async _syncCompress() {
       for (const row of this.selectionRows) {
         await this._compress(this.fileList, row, this.options);
