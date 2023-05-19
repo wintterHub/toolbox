@@ -1,17 +1,24 @@
 <template>
   <el-container class="wrapper">
     <el-header class="header">
-      <a href="#" class="title" @click="goHome">ToolBox</a>
+      <el-button class="userInfo" type="text" v-show="isLogged"><i class="far fa-user"></i>&nbsp;&nbsp;
+        {{ currentEmail }}
+      </el-button>
+      <span class="zhaoChangJin" v-show="isLogged">&nbsp;|&nbsp;</span>
+      <el-button class="logoutBtn" type="text" v-show="isLogged" @click="onLogout">退出</el-button>
+      <el-button class="loginBtn" type="text" @click="onLogin" v-show="!isLogged"><i class="far fa-user"></i>&nbsp;&nbsp;登录
+      </el-button>
+      <a href="#" class="title" @click="goHome"></a>
     </el-header>
     <el-container>
       <el-aside width="250px">
         <el-menu
-            router
-            :default-active="defaultActive"
-            style="height: calc(100vh - 60px - 56px);"
-            background-color="#F7F7F7"
-            text-color="#50646F"
-            active-text-color="#409EFF"
+          router
+          :default-active="defaultActive"
+          style="height: calc(100vh - 60px - 56px);"
+          background-color="#F7F7F7"
+          text-color="#50646F"
+          active-text-color="#409EFF"
         >
           <el-menu-item index="/UrlBatchGenerat">
             <i class="fas fa-link"></i>&nbsp;
@@ -21,14 +28,22 @@
             <i class="far fa-images"></i>&nbsp;
             <span slot="title">图片压缩</span>
           </el-menu-item>
-          <el-menu-item index="/YouGetScriptGenerat" disabled>
-            <i class="far fa-file-video-o"></i>&nbsp;
-            <span slot="title">You-Get脚本生成</span>
+          <el-menu-item index="/ShortLink">
+            <i class="far fa-hand-lizard-o"></i>&nbsp;
+            <span slot="title">短链接生成</span>
           </el-menu-item>
-          <el-menu-item index="/WebPDecode" disabled>
-            <i class="far fa-picture-o"></i>&nbsp;
-            <span slot="title">WebP转码</span>
-          </el-menu-item>
+          <!--          <el-menu-item index="/YouGetScriptGenerat" disabled>-->
+          <!--            <i class="far fa-file-video-o"></i>&nbsp;-->
+          <!--            <span slot="title">You-Get脚本生成</span>-->
+          <!--          </el-menu-item>-->
+          <!--          <el-menu-item index="/WebPDecode" disabled>-->
+          <!--            <i class="far fa-picture-o"></i>&nbsp;-->
+          <!--            <span slot="title">WebP转码</span>-->
+          <!--          </el-menu-item>-->
+          <!--          <el-menu-item index="/WebPDecode" disabled>-->
+          <!--            <i class="far fa-picture-o"></i>&nbsp;-->
+          <!--            <span slot="title">电子木鱼</span>-->
+          <!--          </el-menu-item>-->
         </el-menu>
 
         <div class="github">
@@ -38,28 +53,92 @@
         </div>
       </el-aside>
       <el-main
-          class="main"
-          style="overflow-y: auto; height: calc(100vh - 60px);"
+        class="main"
+        style="overflow-y: auto; height: calc(100vh - 60px);"
       >
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </el-main>
+
+      <login :visible="loginDialogVisible"
+             @close="loginDialogVisible = false"
+             @logged="getUserInfo"></login>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import login from './Login.vue'
+
 export default {
+  components: {
+    login
+  },
+
   data() {
     return {
-      defaultActive: ""
+      defaultActive: "",
+      loginDialogVisible: false,
+      isLogged: false,
+      currentEmail: ''
     };
+  },
+
+  created() {
+    this.getUserInfo()
   },
 
   methods: {
     goHome() {
       this.$router.push("/");
+    },
+
+    onLogin() {
+      this.loginDialogVisible = true
+    },
+
+    async getUserInfo() {
+      try {
+        let res = await this.$axios.get(`/api/member/info`)
+        if (res.data.success && res.data.code === 200) {
+          this.currentEmail = res.data.result.email
+          this.isLogged = true
+        } else if (res.data.code === 403) {
+          this.isLogged = false
+        } else {
+          this.isLogged = false
+          this.$message.error(res.data.message || `用户信息获取失败`)
+        }
+      } catch (e) {
+        this.$message.error(`用户信息获取失败`)
+      } finally {
+
+      }
+    },
+
+    onLogout() {
+      this.$confirm('确定要退出吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          let res = await this.$axios.get(`/api/member/logout`)
+          if (res.data.success && res.data.code === 200) {
+            this.currentEmail = null
+            this.isLogged = false
+          } else {
+            this.$message.error(res.data.message || `退出失败`)
+          }
+        } catch (e) {
+          this.$message.error(`退出失败`)
+        } finally {
+
+        }
+      }).catch(() => {
+
+      });
     }
   },
 
@@ -89,6 +168,23 @@ export default {
   font-weight: 900;
   line-height: 60px;
   text-decoration: none;
+}
+
+.header .loginBtn,
+.header .userInfo,
+.header .logoutBtn {
+  float: left;
+  margin-top: 10px;
+  color: #ffffff;
+  font-family: Microsoft YaHei
+}
+
+.header .zhaoChangJin {
+  float: left;
+  margin-top: 10px;
+  color: #ffffff;
+  font-family: Microsoft YaHei;
+  line-height: 38px;
 }
 
 .github {

@@ -24,7 +24,7 @@
               <el-button
                 :type="isGoldDelete ? 'warning' : ''"
                 :plain="!isGoldDelete"
-                style="margin-left: 20px;"
+                style="margin-left: 4px;"
                 slot="reference"
                 @click="onDeleteClick"
                 @blur.native="onDeleteBlur"
@@ -32,7 +32,7 @@
               >
             </el-popover>
 
-            <el-button plain style="margin-left: 20px;" @click="onCompressClick"
+            <el-button plain style="margin-left: 4px;" @click="onCompressClick"
               ><i class="far fa-images"></i>&nbsp;开始压缩</el-button
             >
 

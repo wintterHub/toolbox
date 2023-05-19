@@ -87,9 +87,10 @@
               plain
               class="generat-content-copy-btn"
               :data-clipboard-text="formData.generatContent"
-              style="margin-left: 20px;"
+              style="margin-left: 4px;"
               :disabled="!formData.generatContent"
-              ><i class="far fa-copy"></i>&nbsp;复制</el-button
+            ><i class="far fa-copy"></i>&nbsp;复制
+            </el-button
             >
             <el-button
               plain
@@ -289,8 +290,8 @@ export default {
 
       util.loadJs(
         window.location.origin +
-          window.location.pathname +
-          "/static/thunder-link.js",
+        window.location.pathname +
+        "/static/thunder-link.js",
         function() {
           // 通过参数创建批量任务
           thunderLink.newTask({
