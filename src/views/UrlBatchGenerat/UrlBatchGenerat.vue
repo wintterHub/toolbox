@@ -27,9 +27,9 @@
             </el-button>
           </div>
           <el-table stripe :data="formData.paramDatas" height="calc(100vh - 261px)">
-            <el-table-column align="center" prop="name" label="参数名">
+            <el-table-column prop="name" label="参数名">
             </el-table-column>
-            <el-table-column align="center" prop="type" label="参数类型">
+            <el-table-column prop="type" label="参数类型">
               <template slot-scope="scope">
                 <span v-if="scope.row.type === 'paramConfigNumber'">
                   数字
@@ -45,7 +45,7 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="address" label="操作">
+            <el-table-column prop="address" label="操作">
               <template slot-scope="scope">
                 <el-button
                   type="text"

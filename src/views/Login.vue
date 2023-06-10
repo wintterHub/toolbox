@@ -2,7 +2,7 @@
   <el-dialog
     title="登录"
     :visible.sync="propVisible"
-    width="45%"
+    width="550px"
     @open="onDialogOpen"
     @close="onDialogClose"
     :close-on-click-modal="false"
