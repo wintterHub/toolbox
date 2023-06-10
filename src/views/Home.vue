@@ -108,10 +108,10 @@ export default {
           this.isLogged = false
         } else {
           this.isLogged = false
-          this.$message.error(res.data.message || `用户信息获取失败`)
+          console.log(res.data.message || `用户信息获取失败`)
         }
       } catch (e) {
-        this.$message.error(`用户信息获取失败`)
+        console.log(`用户信息获取失败`)
       } finally {
 
       }
