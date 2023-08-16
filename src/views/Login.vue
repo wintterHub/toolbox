@@ -181,7 +181,7 @@ export default {
 }
 
 .captcha {
-  height: 38px;
+  height: 37px;
   margin-top: 2px;
 }
 </style>
