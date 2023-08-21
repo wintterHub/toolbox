@@ -19,10 +19,12 @@
           <el-radio-button label="paramConfigNumber">数字</el-radio-button>
           <el-radio-button label="paramConfigLetter">字母</el-radio-button>
           <el-radio-button disabled label="paramConfigTime"
-            >时间</el-radio-button
+          >时间
+          </el-radio-button
           >
           <el-radio-button disabled label="paramConfigCustomize"
-            >自定义</el-radio-button
+          >自定义
+          </el-radio-button
           >
         </el-radio-group>
       </el-form-item>
@@ -37,12 +39,12 @@
 
     <span slot="footer">
       <el-button plain @click="propVisible = false"
-        ><i class="fas fa-times"></i>&nbsp;取 消</el-button
+      ><i class="fas fa-times"></i>&nbsp;取 消</el-button
       >
       <el-button
         plain
         @click="$emit('confirm', JSON.parse(JSON.stringify(returnValue)))"
-        ><i class="fas fa-check"></i>&nbsp;确 定</el-button
+      ><i class="fas fa-check"></i>&nbsp;确 定</el-button
       >
     </span>
   </el-dialog>
@@ -88,37 +90,13 @@ export default {
 
   props: {
     value: Object,
-    type: String // add新建、edit编辑
   },
 
   data() {
-    return {
-      // 弹窗确认时的返回值
-      returnValue: {}
-    };
+    return {};
   },
 
-  computed: {
-    // 是否为添加（该参数只读）
-    isAdd() {
-      return "add" === this.type ? true : false;
-    },
-
-    // 是否为编辑（该参数只读）
-    isEdit() {
-      return "edit" === this.type ? true : false;
-    },
-
-    typeName() {
-      if (this.isAdd) {
-        return "添加";
-      } else if (this.isEdit) {
-        return "编辑";
-      } else {
-        return "";
-      }
-    }
-  },
+  computed: {},
 
   components: {
     paramConfigNumber,

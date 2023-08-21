@@ -7,7 +7,7 @@
       </div>
       <el-input
         v-model="formData.url"
-        placeholder="示例：https://zhaochangjin.com/[参数1]?param=[参数2]"
+        placeholder="示例：https://zhaocj.cn/[参数1]?param=[参数2]"
         class="el-input-url noborder"
         @click.native="onUrlClick"
         @change="onGeneratClick"
@@ -209,8 +209,8 @@ export default {
       this.paramFormDialogType = "add";
       this.paramFormDialogVisible = true;
       // 递增生成参数名
-      let newName = `参数${this.nameIndex}`;
-      this.nameIndex += 1;
+      let nameIndex = parseInt(localStorage.getItem("nameIndex")) || this.nameIndex;
+      let newName = `参数${nameIndex}`;
       this.currentParamData = { name: newName };
     },
 
@@ -252,6 +252,11 @@ export default {
         "paramDatas",
         JSON.stringify(this.formData.paramDatas)
       );
+
+      if (this.formData.paramDatas.length === 0) {
+        this.nameIndex = 1
+        localStorage.setItem("nameIndex", this.nameIndex);
+      }
     },
 
     onDialogConfirm(val) {
@@ -271,13 +276,10 @@ export default {
         this.formData.paramDatas.splice(this.currentParamIndex, 1, val);
       }
       this.isAutoGenerat && this.onGeneratClick();
-    },
 
-    onRealTimeGeneratChange(val) {
-      if (val) {
-        // 开启自动生成，立即执行一次生成逻辑
-        this.onGeneratClick();
-      }
+      let nameIndex = parseInt(localStorage.getItem("nameIndex")) || this.nameIndex;
+      this.nameIndex = nameIndex + 1;
+      localStorage.setItem("nameIndex", this.nameIndex)
     },
 
     onBatchDownloadClick() {

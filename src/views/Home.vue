@@ -104,11 +104,13 @@ export default {
         if (res.data.success && res.data.code === 200) {
           this.currentEmail = res.data.result.email
           this.isLogged = true
+          localStorage.setItem('isLogged', '1')
         } else if (res.data.code === 403) {
           this.isLogged = false
+          localStorage.setItem('isLogged', '0')
         } else {
           this.isLogged = false
-
+          localStorage.setItem('isLogged', '0')
         }
       } catch (e) {
 
@@ -128,6 +130,7 @@ export default {
           if (res.data.success && res.data.code === 200) {
             this.currentEmail = null
             this.isLogged = false
+            localStorage.setItem('isLogged', '0')
           } else {
             this.$message.error(res.data.message || `退出失败`)
           }
