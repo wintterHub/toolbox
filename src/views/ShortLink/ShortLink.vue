@@ -53,7 +53,8 @@
       >
       </el-input>
 
-      <el-button plain @click="onCopyShortLinkClick" style="margin-top: 20px;margin-left: 20px;">
+      <el-button plain @click="onCopyShortLinkClick" style="margin-top: 20px;margin-left: 20px;"
+                 :data-clipboard-text="shortLink" class="copy-btn">
         <i class="far fa-copy"></i>&nbsp;复制
       </el-button>
     </div>
@@ -62,7 +63,7 @@
       <div slot="header">
         <span>历史记录</span>
       </div>
-      <el-table stripe :data="formData" height="calc(100vh - 152px)" empty-text="暂无数据（登录后可查看）">
+      <el-table stripe :data="formData" height="calc(100vh - 322px)" empty-text="暂无数据（登录后可查看）">
         <el-table-column prop="shortLink" label="短链接" show-overflow-tooltip width="330">
           <template v-slot="scope">
             <el-button type="text" title="复制" style="padding: 0" :data-clipboard-text="scope.row.shortLink"
@@ -152,7 +153,7 @@ export default {
       let res
       try {
         let timeLimit = this.timeLimit === '-1' ? this.customize : this.timeLimit
-        res = await this.$axios.get(`/api/shortLink/create?link=${window.encodeURIComponent(this.link)}&timeLimit=${timeLimit}`)
+        res = await this.$axios.get(`/api/shortLink/create?link=${window.encodeURIComponent(btoa(this.link))}&timeLimit=${timeLimit}`)
         if (res.data.success && res.data.code === 200) {
           this.shortLink = res.data.result
         } else {
