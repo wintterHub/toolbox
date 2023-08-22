@@ -4,7 +4,7 @@
 
 包含如下工具：
 
->  [链接批量生成](https://zhaocj.goho.co/toolbox/#/UrlBatchGenerat)
+>  [链接批量生成](https://zhaocj.goho.co/#/UrlBatchGenerat)
 
 >  [图片压缩](https://zhaocj.goho.co/#/ImageCompress)
 
