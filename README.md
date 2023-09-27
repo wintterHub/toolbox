@@ -10,8 +10,8 @@
 
 >  [短地址生成](http://www.zhaocj.cn/#/ShortLink)
 
->  [图片混淆](http://www.zhaocj.cn/tphx/)
-
 其他工具：
+
+>  [图片混淆](http://www.zhaocj.cn/tphx/)
 
 >  [种子编辑器](https://sdjdd.github.io/whitewash-torrent/demo/)
