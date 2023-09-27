@@ -8,7 +8,9 @@
 
 >  [图片压缩](https://zhaocj.goho.co/#/ImageCompress)
 
->  [短地址生成](https://zhaocj.goho.co/#/ShortLink) 
+>  [短地址生成](https://zhaocj.goho.co/#/ShortLink)
+
+>  [图片混淆](http://www.zhaocj.cn/tphx/)
 
 其他工具：
 
