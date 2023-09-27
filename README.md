@@ -4,11 +4,11 @@
 
 包含如下工具：
 
->  [链接批量生成](https://zhaocj.goho.co/#/UrlBatchGenerat)
+>  [链接批量生成](https://www.zhaocj.cn/#/UrlBatchGenerat)
 
->  [图片压缩](https://zhaocj.goho.co/#/ImageCompress)
+>  [图片压缩](https://www.zhaocj.cn/#/ImageCompress)
 
->  [短地址生成](https://zhaocj.goho.co/#/ShortLink)
+>  [短地址生成](https://www.zhaocj.cn/#/ShortLink)
 
 >  [图片混淆](http://www.zhaocj.cn/tphx/)
 
