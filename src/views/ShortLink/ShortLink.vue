@@ -76,6 +76,12 @@
         <el-table-column prop="addTime" label="生成时间" show-overflow-tooltip width="220">
         </el-table-column>
         <el-table-column prop="status" label="状态" show-overflow-tooltip width="120">
+          <template v-slot="scope">
+            <el-button type="text" style="margin-right: 10px;padding: 0;" @click="renewal(scope.row)">{{
+                scope.row.status
+              }}
+            </el-button>
+          </template>
         </el-table-column>
         <el-table-column prop="pv" label="访问次数" show-overflow-tooltip width="120">
           <template v-slot="scope">
@@ -175,6 +181,24 @@ export default {
     },
 
     onCopyShortLinkClick() {
+    },
+
+    renewal(row) {
+      this.$prompt('修改短链接有效期（天），0表示永久', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /[0-9]+/,
+        inputErrorMessage: '只能填写数字'
+      }).then(async ({ value }) => {
+        const res = await this.$axios.get(`/api/shortLink/renewal?id=${row.id}&timeLimit=${value}`)
+        if (res.data.success && res.data.code === 200) {
+          await this.initData()
+        } else {
+          this.$message.error(res.data.message || '修改失败')
+        }
+      }).catch(() => {
+
+      });
     }
   }
 }
